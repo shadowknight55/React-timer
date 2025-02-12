@@ -2,13 +2,21 @@ import React from 'react';
 import TimerDisplay from '../timer/TimerDisplay';
 import TimerControls from '../timer/TimerControls';
 
-const Card = ({ timerValue, onStart, onStop, onReset }) => {
-    return (
-        <div className="card">
-            <TimerDisplay timerValue={timerValue} />
-            <TimerControls onStart={onStart} onStop={onStop} onReset={onReset} />
-        </div>
-    );
-};
+const Card = ({ timerValue, onStart, onStop, onReset }) => { 
+    // Card component to display timer and controls
 
-export default Card;
+    // Render the card containing timer display and controls
+    return ( 
+        <div className="card"> 
+            {/* Container for timer display and controls */}
+
+            <TimerDisplay timerValue={timerValue} /> 
+            {/* Display the current timer value */}
+
+            <TimerControls onStart={onStart} onStop={onStop} onReset={onReset} /> 
+            {/* Controls for starting, stopping, and resetting the timer */}
+        </div> 
+    ); // End of Card component
+}; // 
+
+export default Card; // Export the Card component
