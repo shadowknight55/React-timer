@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css'; // Importing the CSS for styling
-import Card from './components/common/Card';
-import TimerControls from './components/timer/TimerControls'; // Import TimerControls
-import TimerDisplay from './components/timer/TimerDisplay'; // Import TimerDisplay
+import TimerControls from './components/common/TimerControls'; // Import TimerControls
+import TimerDisplay from './components/common/TimerDisplay'; // Import TimerDisplay
 
 const App = () => { 
     const [customTime, setCustomTime] = useState(25); // Set custom time to 25 minutes
-    const [darkMode, setDarkMode] = useState(false); 
     const [isRunning, setIsRunning] = useState(false); 
     const [seconds, setSeconds] = useState(0); // Start at 0 seconds
     const [minutes, setMinutes] = useState(customTime); // Track minutes separately
@@ -43,7 +41,7 @@ const App = () => {
     }; // Define onReset function
 
     return ( 
-        <div className={darkMode ? 'dark-mode' : ''}> 
+        <div> 
             <h1>Focus Timer</h1> 
             <TimerDisplay 
                 minutes={minutes} // Display minutes
