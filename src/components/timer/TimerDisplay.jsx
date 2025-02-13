@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const TimerDisplay = ({ timerValue }) => {
-    const formatTime = (time) => {
-        const minutes = String(Math.floor(time / 60)).padStart(2, '0');
-        const seconds = String(time % 60).padStart(2, '0');
-        return `${minutes}:${seconds}`;
-    };
+const TimerDisplay = ({ minutes, seconds }) => {
+    console.log("TimerDisplay - Minutes:", minutes, "Seconds:", seconds);
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
 
     return (
         <div>
-            <h1>{formatTime(timerValue)}</h1>
+            <h2>{formattedMinutes}:{formattedSeconds}</h2>
         </div>
     );
 };
-
 
 export default TimerDisplay;

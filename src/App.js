@@ -1,81 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import './App.css'; // Importing the CSS for styling
 import Card from './components/common/Card';
+import TimerControls from './components/timer/TimerControls'; // Import TimerControls
+import TimerDisplay from './components/timer/TimerDisplay'; // Import TimerDisplay
 
 const App = () => { 
-    // Main application component
-    // State for custom timer input in minutes
-    const [customTime, setCustomTime] = useState(25); 
-    // State for dark mode
+    const [customTime, setCustomTime] = useState(25); // Set custom time to 25 minutes
     const [darkMode, setDarkMode] = useState(false); 
-    // State to track if the timer is running
     const [isRunning, setIsRunning] = useState(false); 
-    // State for seconds countdown
-    const [seconds, setSeconds] = useState(60); 
+    const [seconds, setSeconds] = useState(0); // Start at 0 seconds
+    const [minutes, setMinutes] = useState(customTime); // Track minutes separately
 
-    // Effect to handle the countdown logic
     useEffect(() => { 
-        let timer; // Variable to hold the timer interval
-        // Start the timer if it is running and custom time is greater than 0
-        if (isRunning && customTime > 0) { 
-            // Set an interval to update the timer every second
+        let timer; 
+        if (isRunning && (minutes > 0 || seconds > 0)) { 
+            console.log("Timer is running. Minutes left:", minutes, "Seconds left:", seconds);
             timer = setInterval(() => { 
-                // If seconds are greater than 0, decrement seconds
-                if (seconds > 0) { 
-                    setSeconds(prev => prev - 1); // Decrement seconds
-                } else { 
-                    // Decrement minutes and reset seconds to 60
-                    setCustomTime(prev => prev - 1); 
+                if (seconds === 0) {
+                    setMinutes(prev => prev - 1); // Decrease minutes
                     setSeconds(60); // Reset seconds to 60
+                } else {
+                    setSeconds(prev => prev - 1); // Decrease seconds
                 }
-            }, 1000); // Update every second
+            }, 1000); 
         }
-        // Cleanup function to clear the timer interval
         return () => clearInterval(timer); 
-    }, [isRunning, seconds, customTime]); 
+    }, [isRunning, seconds, minutes]); 
 
-    // Function to handle starting the timer
-    const handleStart = () => { 
-        // Start the timer if custom time is greater than 0
-        if (customTime > 0) { 
-            setIsRunning(true); // Set running state to true
-            setSeconds(60); // Reset seconds to 60 when starting
-        } // Closing brace added here
-    };
-    // Function to handle stopping the timer
-    const handleStop = () => setIsRunning(false); 
-    // Function to handle resetting the timer
-    const handleReset = () => { 
-        setIsRunning(false); // Stop the timer
-        setCustomTime(25); // Reset to 25 minutes
-        setSeconds(60); // Reset seconds to 60
+    const onStart = () => { 
+        setIsRunning(true); 
+        setMinutes(customTime); // Set minutes based on custom time when starting
+        setSeconds(60); // Set seconds to 60 when starting
     };
 
-    // Render the application UI
+    const onStop = () => setIsRunning(false); // Define onStop function
+
+    const onReset = () => { 
+        setIsRunning(false); 
+        setCustomTime(25); // Reset custom time to 25 minute
+        setMinutes(25); // Reset minutes to 25
+        setSeconds(0); // Reset seconds to 0
+    }; // Define onReset function
+
     return ( 
-        <div className={darkMode ? 'dark-mode' : ''}> {/* Apply dark mode class */} 
-            <button onClick={() => setDarkMode(!darkMode)}>Toggle Dark Mode</button> {/* Button to toggle dark mode */} 
-            <h1>Focus Timer</h1> {/* Title for the timer */} 
-            <div> 
-                <input 
-                    type="number"
-                    value={customTime}
-                    onChange={(e) => {
-                        if (!isRunning) {
-                            setCustomTime(e.target.value);
-                        }
-                    }} 
-                    placeholder="Set Timer (minutes)"  // Placeholder for timer input
-                /> {/* Input for custom timer */} 
-                <Card 
-                    timerValue={customTime * 60 + seconds} // Convert minutes to seconds for display 
-                    onStart={handleStart}  // Pass start handler to Card
-                    onStop={handleStop}  // Pass stop handler to Card
-                    onReset={handleReset}  // Pass reset handler to Card
-                /> 
-            </div> 
+        <div className={darkMode ? 'dark-mode' : ''}> 
+            <h1>Focus Timer</h1> 
+            <TimerDisplay 
+                minutes={minutes} // Display minutes
+                seconds={isRunning ? seconds : 0} // Show seconds only when running
+            /> 
+            <TimerControls 
+                onStart={onStart} 
+                onStop={onStop} // Pass onStop function
+                onReset={onReset} // Pass onReset function
+                customTime={customTime} 
+                setCustomTime={setCustomTime} 
+                isRunning={isRunning} 
+            /> 
         </div> 
-    ); // End of return statement
-}; // End of App component
+    ); 
+}; 
 
-export default App; // Export the App component
+export default App;
