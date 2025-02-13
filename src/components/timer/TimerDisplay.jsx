@@ -6,6 +6,7 @@ const TimerDisplay = ({ minutes, seconds }) => {
     const formattedSeconds = String(seconds).padStart(2, '0');
 
     return (
+        // Display the formatted time
         <div>
             <h2>{formattedMinutes}:{formattedSeconds}</h2>
         </div>
