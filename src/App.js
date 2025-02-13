@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'; // Importing the CSS for styling
-import TimerControls from './components/common/TimerControls'; // Import TimerControls
-import TimerDisplay from './components/common/TimerDisplay'; // Import TimerDisplay
+import './App.css'; 
+import TimerControls from './components/TimerControls'; 
+import TimerDisplay from './components/TimerDisplay'; 
 
-const App = () => { 
+const App = () => {
+    // State to manage custom time for the timer
     const [customTime, setCustomTime] = useState(25); // Set custom time to 25 minutes
-    const [isRunning, setIsRunning] = useState(false); 
+
+    // State to manage the running status of the timer
+    const [isRunning, setIsRunning] = useState(false); // State to manage if the timer is running
     const [seconds, setSeconds] = useState(0); // Start at 0 seconds
+
+    // State to track the remaining minutes
     const [minutes, setMinutes] = useState(customTime); // Track minutes separately
 
-    useEffect(() => { 
-        let timer; 
+    // Effect to handle the timer countdown
+
+    useEffect(() => {
+        let timer; // Variable to hold the timer interval
         if (isRunning && (minutes > 0 || seconds > 0)) { 
             console.log("Timer is running. Minutes left:", minutes, "Seconds left:", seconds);
             timer = setInterval(() => { 
@@ -22,25 +29,28 @@ const App = () => {
                 }
             }, 1000); 
         }
-        return () => clearInterval(timer); 
+        return () => clearInterval(timer); // Cleanup the timer on component unmount
     }, [isRunning, seconds, minutes]); 
 
-    const onStart = () => { 
+    const onStart = () => {
+        // Start the timer and set initial values
         setIsRunning(true); 
         setMinutes(customTime); // Set minutes based on custom time when starting
         setSeconds(60); // Set seconds to 60 when starting
     };
 
-    const onStop = () => setIsRunning(false); // Define onStop function
+    const onStop = () => setIsRunning(false); // Stop the timer
 
-    const onReset = () => { 
+    const onReset = () => {
+        // Reset the timer to initial values
         setIsRunning(false); 
         setCustomTime(25); // Reset custom time to 25 minute
         setMinutes(25); // Reset minutes to 25
         setSeconds(0); // Reset seconds to 0
-    }; // Define onReset function
+    }; 
 
-    return ( 
+    return (
+        // Main render of the App component
         <div> 
             <h1>Focus Timer</h1> 
             <TimerDisplay 

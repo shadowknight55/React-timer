@@ -29,4 +29,4 @@ const TimerControls = ({ onStart, onStop, onReset, customTime, setCustomTime, is
     ); 
 }; 
 
-export default TimerControls; // Export the TimerControls component
+export default TimerControls; 
