@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 // TimerControls component to manage timer functionality
-const TimerControls = ({ onStart, onStop, onReset, customTime, setCustomTime, isRunning, minutes, seconds, setMinutes, setSeconds }) => {
+const TimerControls = ({ customTime, setCustomTime, isRunning, setIsRunning, minutes, setMinutes, seconds, setSeconds }) => {
     useEffect(() => {
         let timer;
         if (isRunning && (minutes > 0 || seconds > 0)) {
@@ -17,6 +17,24 @@ const TimerControls = ({ onStart, onStop, onReset, customTime, setCustomTime, is
         }
         return () => clearInterval(timer); // Cleanup the timer on component unmount
     }, [isRunning, seconds, minutes]);
+
+    // Function to start the timer
+    const onStart = () => {
+        setIsRunning(true); 
+        setMinutes(customTime); // Set minutes based on custom time when starting
+        setSeconds(60); // Set seconds to 60 when starting
+    };
+
+    // Function to stop the timer
+    const onStop = () => setIsRunning(false); // Stop the timer
+
+    // Function to reset the timer
+    const onReset = () => {
+        setIsRunning(false); 
+        setCustomTime(25); // Reset custom time to 25 minutes
+        setMinutes(25); // Reset minutes to 25
+        setSeconds(0); // Reset seconds to 0
+    };
 
     return (
         <div className="timer-controls">
