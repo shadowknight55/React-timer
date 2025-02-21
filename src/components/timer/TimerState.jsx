@@ -3,6 +3,10 @@ import useTimer from '../../hooks/useTimer';
 import TimerDisplay from './TimerDisplay';
 import TimerControls from './TimerControls';
 
+/**
+ * TimerState component to manage and display the timer state.
+ * @param initialTime - The initial time in minutes.
+ */
 const TimerState = ({ initialTime }) => {
     const {
         customTime,

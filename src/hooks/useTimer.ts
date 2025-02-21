@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Custom hook to manage timer state and logic.
+ * @param initialTime - The initial time in minutes.
+ * @returns An object containing timer state and control functions.
+ */
 const useTimer = (initialTime: number) => {
     const [customTime, setCustomTime] = useState(initialTime);
     const [isRunning, setIsRunning] = useState(false);

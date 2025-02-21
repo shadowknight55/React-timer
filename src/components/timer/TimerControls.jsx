@@ -1,7 +1,15 @@
 import React from 'react';
 import Button from '../common/Button'; // Import Button component
 
-// TimerControls component to manage timer functionality
+/**
+ * TimerControls component to manage timer functionality.
+ * @param customTime - The custom time set by the user.
+ * @param setCustomTime - Function to update the custom time.
+ * @param isRunning - Boolean indicating if the timer is running.
+ * @param onStart - Function to start the timer.
+ * @param onStop - Function to stop the timer.
+ * @param onReset - Function to reset the timer.
+ */
 const TimerControls = ({ customTime, setCustomTime, isRunning, onStart, onStop, onReset }) => {
     return (
         <div className="timer-controls">
@@ -11,9 +19,10 @@ const TimerControls = ({ customTime, setCustomTime, isRunning, onStart, onStop, 
                 onChange={(e) => setCustomTime(Number(e.target.value))}
                 disabled={isRunning} // Disable input when timer is running
             />
-            <Button onClick={onStart} disabled={isRunning}>Start</Button>
-            <Button onClick={onStop} disabled={!isRunning}>Stop</Button>
-            <Button onClick={onReset}>Reset</Button>
+            <Button onClick={isRunning ? onStop : onStart}>
+                {isRunning ? 'Stop' : 'Start'}
+            </Button>
+            <Button onClick={onReset}>Restart</Button>
         </div>
     );
 };
