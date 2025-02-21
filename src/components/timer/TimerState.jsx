@@ -9,14 +9,14 @@ import TimerControls from './TimerControls';
  */
 const TimerState = ({ initialTime }) => {
     const {
-        customTime,
-        setCustomTime,
-        isRunning,
-        onStart,
-        onStop,
-        onReset,
-        minutes,
-        seconds
+        customTime, // Custom time set by the user
+        setCustomTime, // Function to set the custom time
+        isRunning, // Boolean indicating if the timer is running
+        onStart, // Function to start the timer
+        onStop, // Function to stop the timer
+        onReset, // Function to reset the timer
+        minutes, // Current minutes of the timer
+        seconds // Current seconds of the timer
     } = useTimer(initialTime);
 
     return (

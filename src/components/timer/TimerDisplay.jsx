@@ -7,8 +7,8 @@ import React from 'react';
  */
 const TimerDisplay = ({ minutes, seconds }) => {
     console.log("TimerDisplay - Minutes:", minutes, "Seconds:", seconds);
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0'); // Format minutes
+    const formattedSeconds = String(seconds).padStart(2, '0'); // Format seconds
 
     return (
         // Display the formatted time
