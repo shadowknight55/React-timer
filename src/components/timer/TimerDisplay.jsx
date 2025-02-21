@@ -6,7 +6,6 @@ import React from 'react';
  * @param seconds - The remaining seconds.
  */
 const TimerDisplay = ({ minutes, seconds }) => {
-    console.log("TimerDisplay - Minutes:", minutes, "Seconds:", seconds);
     const formattedMinutes = String(minutes).padStart(2, '0'); // Format minutes
     const formattedSeconds = String(seconds).padStart(2, '0'); // Format seconds
 

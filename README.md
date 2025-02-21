@@ -67,8 +67,6 @@ The `ErrorBoundary` component catches JavaScript errors anywhere in the child co
    - Click the "Stop" button to pause the timer.
 4. **Reset the Timer:**
    - Click the "Reset" button to return the timer to the default time of 25 minutes.
-5. **Toggle Dark Mode:**
-   - Use the "Toggle Dark Mode" button to switch between light and dark themes.
 
 ## Component Documentation
 - **App:** Main component that renders the Card component.
