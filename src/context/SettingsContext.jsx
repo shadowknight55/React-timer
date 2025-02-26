@@ -1,0 +1,33 @@
+import React, { createContext, useState, useContext } from 'react';
+
+const SettingsContext = createContext();
+
+export const useSettings = () => {
+  return useContext(SettingsContext);
+};
+
+export const SettingsProvider = ({ children }) => {
+  const [settings, setSettings] = useState({
+    timerDuration: 25, // Default timer duration in minutes
+    theme: 'light', // Default theme
+    notifications: true, // Default notifications setting
+    sound: true, // Default sound setting
+    timerPresets: {
+      focusTime: 25,
+      shortBreak: 5,
+      longBreak: 15,
+    },
+  });
+
+  const updateSetting = (key, value) => {
+    setSettings((prevSettings) => ({ ...prevSettings, [key]: value }));
+  };
+
+  return (
+    <SettingsContext.Provider value={{ settings, updateSetting }}>
+      {children}
+    </SettingsContext.Provider>
+  );
+};
+
+export { SettingsContext };

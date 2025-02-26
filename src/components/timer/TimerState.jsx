@@ -5,12 +5,14 @@ import TimerControls from './TimerControls';
 import useAnalytics from '../../hooks/useAnalytics';
 import useNotifications from '../../hooks/useNotifications';
 import NotificationSystem from '../feedback/NotificationSystem';
+import { useSettings } from '../../context/SettingsContext';
 
 /**
  * TimerState component to manage and display the timer state.
  * @param initialTime - The initial time in minutes.
  */
 const TimerState = ({ initialTime }) => {
+  const { settings } = useSettings();
   const {
     customTime,
     setCustomTime,
@@ -21,7 +23,7 @@ const TimerState = ({ initialTime }) => {
     minutes,
     seconds,
     time,
-  } = useTimer(initialTime);
+  } = useTimer(settings.timerPresets.focusTime);
 
   const { streak, incrementStreak } = useAnalytics();
   const { notifications, addNotification, removeNotification } = useNotifications();

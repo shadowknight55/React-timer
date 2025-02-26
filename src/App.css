@@ -1,22 +1,56 @@
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(to right, #f0f0f0, #e0e0e0); /* Gradient background */
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
   color: #333;
   transition: background-color 0.3s, color 0.3s;
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  display: flex; /* Use flexbox for layout */
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
-  height: 100vh; /* Full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.navbar {
+  background-color: #333;
+  overflow: hidden;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar li {
+  float: left;
+}
+
+.navbar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar li a:hover {
+  background-color: #111;
 }
 
 .card {
-  background-color: #f9f9f9;
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
+  padding: 20px;
   max-width: 400px;
   text-align: center;
 }
@@ -57,25 +91,66 @@ body {
 }
 
 button {
-  padding: 12px 20px; /* Increased padding */
+  padding: 12px 20px;
   margin: 5px;
   border: none;
-  border-radius: 25px; /* Fully rounded buttons */
+  border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s; 
-  background-color: #007bff; 
-  color: white; 
-  font-weight: bold; /* Bold text */
+  transition: background-color 0.3s, transform 0.2s;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #0056b3;
 }
 
 input {
-  padding: 12px; /* Increased padding */
+  padding: 12px;
   margin: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%; /* Make input full width */
+  width: 100%;
+}
+
+.settings-panel {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.settings-panel h2 {
+  margin-bottom: 20px;
+}
+
+.settings-panel label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.settings-panel input[type="number"],
+.settings-panel select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.settings-panel button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.settings-panel button:hover {
+  background-color: #0056b3;
 }

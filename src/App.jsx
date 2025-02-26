@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
-import StreakCounter from './components/analytics/StreakCounter';
-import './App.css'; // Importing the CSS for styling
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.css';
+import NavBar from './components/nav/NavBar';
+import HomePage from './pages/HomePage';
 import Card from './components/Card';
-import ErrorBoundary from './components/common/ErrorBoundary'; // Import ErrorBoundary
+import SettingsPanel from './components/settings/SettingsPanel';
+import ProgressPage from './pages/ProgressPage';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import { SettingsProvider } from './context/SettingsContext';
 
 const App = () => {
-    // State to manage custom time for the timer
-    const [customTime, setCustomTime] = useState(25); // Set custom time to 25 minutes
-
-    return (
-        // Main render of the App component
-        <div> 
-            <h1>Focus Timer</h1> 
-            <StreakCounter />
-            <ErrorBoundary>
-
-                <Card initialTime={customTime} />
-            </ErrorBoundary>
-        </div> 
-    ); 
-}; 
+  return (
+    <SettingsProvider>
+      <Router>
+        <div>
+          <NavBar />
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/timer" element={<Card />} />
+              <Route path="/settings" element={<SettingsPanel />} />
+              <Route path="/progress" element={<ProgressPage />} />
+            </Routes>
+          </ErrorBoundary>
+        </div>
+      </Router>
+    </SettingsProvider>
+  );
+};
 
 export default App;
