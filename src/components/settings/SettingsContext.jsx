@@ -34,3 +34,4 @@ export const SettingsProvider = ({ children }) => {
 };
 
 export { SettingsContext };
+ 

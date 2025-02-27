@@ -1,8 +1,7 @@
 # React Timer
 
 ## Overview
-
-This project is a focus timer built with React. It allows users to set a custom time, start, stop, and reset the timer. The timer state and logic are managed using a custom hook, and the components are structured to promote reusability and separation of concerns.
+This is a focus timer that can help with work or anything when you need to focus for a set time
 
 ## Setup Instructions
 1. **Clone the repository:**
@@ -31,26 +30,14 @@ This project is a focus timer built with React. It allows users to set a custom 
 - `src/components/timer/TimerDisplay.jsx`: Component to display the remaining time.
 - `src/components/common/ErrorBoundary.jsx`: Component to catch and handle errors in the component tree.
 - `src/components/common/Button.jsx`: Reusable button component.
-- `src/components/Card.jsx`: Component to wrap the timer state and display.
+- `src/components/common/Card.jsx`: Component to wrap the timer state and display.
+- `src/components/nav/NavBar.jsx`: Component for the navigation bar.
+- `src/components/settings/SettingsPanel.jsx`: Component for the settings panel.
+- `src/components/settings/SettingsContext.jsx`: Context for managing settings.
+- `src/components/feedback/NotificationSystem.jsx`: Component for displaying notifications.
+- `src/pages/HomePage.jsx`: Component for the home page.
+- `src/pages/ProgressPage.jsx`: Component for the progress page.
 - `src/App.jsx`: Main application component.
-
-## Rationale
-
-### Custom Hook (`useTimer`)
-
-The `useTimer` hook encapsulates the timer state and logic, making it reusable and easy to manage. By using a custom hook, we can keep the timer logic separate from the UI components, promoting a clean and maintainable codebase.
-
-### TimerState Component
-
-The `TimerState` component uses the `useTimer` hook to manage the timer state and passes the necessary props to the `TimerDisplay` and `TimerControls` components. This separation of concerns ensures that each component has a single responsibility.
-
-### TimerControls Component
-
-The `TimerControls` component provides the user interface for controlling the timer. It uses a reusable `Button` component to ensure consistency and reduce duplication.
-
-### ErrorBoundary Component
-
-The `ErrorBoundary` component catches JavaScript errors anywhere in the child component tree, logs those errors, and displays a fallback UI. This improves the robustness of the application by preventing it from crashing due to unhandled errors.
 
 ## Dependencies List
 - React
@@ -67,21 +54,6 @@ The `ErrorBoundary` component catches JavaScript errors anywhere in the child co
    - Click the "Stop" button to pause the timer.
 4. **Reset the Timer:**
    - Click the "Reset" button to return the timer to the default time of 25 minutes.
-
-## Component Documentation
-- **App:** Main component that renders the Card component.
-- **Card:** Manages the timer state and displays the TimerDisplay and TimerControls components.
-- **TimerDisplay:** Shows the formatted timer value.
-- **TimerControls:** Contains input and buttons for controlling the timer.
-
-## Development Notes
-- The project uses Create React App for easy setup and development.
-- Ensure to keep dependencies updated to avoid deprecation warnings.
-- Consider implementing additional features such as:
-  - Customizable timer intervals
-  - Alert notifications when the timer expires
-  - Integration with external APIs for enhanced functionality
-- Follow best practices for code organization, commenting, and testing to ensure maintainability and scalability.
 
 ## Usage
 
