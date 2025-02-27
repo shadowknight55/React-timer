@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 import useTimer from '../../hooks/useTimer';
 import TimerDisplay from './TimerDisplay';
 import TimerControls from './TimerControls';
-import useAnalytics from '../../hooks/useAnalytics';
 import useNotifications from '../../hooks/useNotifications';
 import NotificationSystem from '../feedback/NotificationSystem';
-import { useSettings } from '../../context/SettingsContext';
+import { useSettings } from '../settings/SettingsContext';
 
 /**
  * TimerState component to manage and display the timer state.
  * @param initialTime - The initial time in minutes.
  */
 const TimerState = ({ initialTime }) => {
-  const { settings } = useSettings();
+  const { settings, incrementStreak } = useSettings();
   const {
     customTime,
     setCustomTime,
@@ -25,17 +24,16 @@ const TimerState = ({ initialTime }) => {
     time,
   } = useTimer(settings.timerPresets.focusTime);
 
-  const { streak, incrementStreak } = useAnalytics();
   const { notifications, addNotification, removeNotification } = useNotifications();
   const [hasNotified, setHasNotified] = useState(false);
 
   useEffect(() => {
     if (time === 0 && !hasNotified) {
-      incrementStreak();
       addNotification('Timer ended');
+      incrementStreak();
       setHasNotified(true);
     }
-  }, [time, incrementStreak, addNotification, hasNotified]);
+  }, [time, addNotification, hasNotified, incrementStreak]);
 
   useEffect(() => {
     if (time > 0) {
@@ -55,9 +53,6 @@ const TimerState = ({ initialTime }) => {
         onReset={onReset}
       />
       <NotificationSystem notifications={notifications} removeNotification={removeNotification} />
-      <div>
-        <h2>Timer Finished Streak: {streak} times</h2>
-      </div>
     </div>
   );
 };

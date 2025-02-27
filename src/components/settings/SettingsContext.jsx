@@ -14,17 +14,20 @@ export const SettingsProvider = ({ children }) => {
     sound: true, // Default sound setting
     timerPresets: {
       focusTime: 25,
-      shortBreak: 5,
-      longBreak: 15,
     },
+    streak: 0, // Initial streak value
   });
 
   const updateSetting = (key, value) => {
     setSettings((prevSettings) => ({ ...prevSettings, [key]: value }));
   };
 
+  const incrementStreak = () => {
+    setSettings((prevSettings) => ({ ...prevSettings, streak: prevSettings.streak + 1 }));
+  };
+
   return (
-    <SettingsContext.Provider value={{ settings, updateSetting }}>
+    <SettingsContext.Provider value={{ settings, updateSetting, incrementStreak }}>
       {children}
     </SettingsContext.Provider>
   );

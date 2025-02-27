@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { SettingsContext } from "../../context/SettingsContext";
+import { SettingsContext } from "./SettingsContext";
 import "./SettingsPanel.css";
 
 export default function SettingsPanel() {
@@ -37,13 +37,8 @@ export default function SettingsPanel() {
     <div className="settings-panel">
       <h2>Settings</h2>
 
-      <label>
-        Theme:
-        <select value={settings.theme} onChange={(e) => updateSetting("theme", e.target.value)}>
-          <option value="light">Light Mode</option>
-          <option value="dark">Dark Mode</option>
-        </select>
-      </label>
+      
+       
 
       {/* Notification Toggle */}
       <label>
@@ -66,9 +61,8 @@ export default function SettingsPanel() {
       </label>
 
       {/* Timer Presets */}
-      <h3>Timer Presets (in minutes)</h3>
+      <h3>Timer Presets </h3>
       <label>
-        Focus Time:
         <input type="number" name="focusTime" value={localPresets.focusTime} onChange={handlePresetChange} />
       </label>
       <button onClick={savePresets}>Save Timer Presets</button>

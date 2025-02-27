@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/nav/NavBar';
 import HomePage from './pages/HomePage';
-import Card from './components/Card';
+import Card from './components/common/Card';
 import SettingsPanel from './components/settings/SettingsPanel';
 import ProgressPage from './pages/ProgressPage';
 import ErrorBoundary from './components/common/ErrorBoundary';
-import { SettingsProvider } from './context/SettingsContext';
+import { SettingsProvider } from './components/settings/SettingsContext';
 
 const App = () => {
   return (
