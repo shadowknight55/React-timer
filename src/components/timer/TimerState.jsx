@@ -3,7 +3,7 @@ import useTimer from '../../hooks/useTimer';
 import TimerDisplay from './TimerDisplay';
 import TimerControls from './TimerControls';
 import useNotifications from '../../hooks/useNotifications';
-import NotificationSystem from '../feedback/NotificationSystem';
+import ToastManager from '../feedback/ToastManager';
 import { useSettings } from '../settings/SettingsContext';
 
 /**
@@ -29,7 +29,7 @@ const TimerState = ({ initialTime }) => {
 
   useEffect(() => {
     if (time === 0 && !hasNotified) {
-      addNotification('Timer ended');
+      addNotification('Session over, updating streak');
       incrementStreak();
       setHasNotified(true);
     }
@@ -52,7 +52,7 @@ const TimerState = ({ initialTime }) => {
         onStop={onStop}
         onReset={onReset}
       />
-      <NotificationSystem notifications={notifications} removeNotification={removeNotification} />
+      <ToastManager notifications={notifications} removeNotification={removeNotification} />
     </div>
   );
 };

@@ -4,18 +4,18 @@ const useNotifications = () => {
   const [notifications, setNotifications] = useState([]);
 
   const addNotification = (message) => {
-    setNotifications((prevNotifications) => [...prevNotifications, message]);
+    const id = Date.now();
+    setNotifications((prevNotifications) => [
+      ...prevNotifications,
+      { id, message },
+    ]);
   };
 
-  const removeNotification = (index) => {
-    setNotifications((prevNotifications) => prevNotifications.filter((_, i) => i !== index));
+  const removeNotification = () => {
+    setNotifications((prevNotifications) => prevNotifications.slice(1));
   };
 
-  return {
-    notifications,
-    addNotification,
-    removeNotification,
-  };
+  return { notifications, addNotification, removeNotification };
 };
 
 export default useNotifications;
