@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import useTimer from '../../hooks/useTimer';
 import TimerDisplay from './TimerDisplay';
 import TimerControls from './TimerControls';
