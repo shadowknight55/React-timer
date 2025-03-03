@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const SettingsContext = createContext();
 
@@ -26,6 +26,10 @@ export const SettingsProvider = ({ children }) => {
     setSettings((prevSettings) => ({ ...prevSettings, streak: prevSettings.streak + 1 }));
   };
 
+  useEffect(() => {
+    document.documentElement.className = settings.theme;
+  }, [settings.theme]);
+
   return (
     <SettingsContext.Provider value={{ settings, updateSetting, incrementStreak }}>
       {children}
@@ -34,4 +38,3 @@ export const SettingsProvider = ({ children }) => {
 };
 
 export { SettingsContext };
- 
