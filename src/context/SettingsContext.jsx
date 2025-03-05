@@ -16,6 +16,7 @@ export const SettingsProvider = ({ children }) => {
       focusTime: 25,
     },
     streak: 0, // Initial streak value
+    sessions: [], // Array to store session durations
   });
 
   const updateSetting = (key, value) => {

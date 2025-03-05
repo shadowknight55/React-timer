@@ -1,9 +1,30 @@
 import { useState, useEffect } from 'react';
 
 const useTimer = (initialTime) => {
-  const [customTime, setCustomTime] = useState(initialTime);
-  const [time, setTime] = useState(initialTime * 60);
-  const [isRunning, setIsRunning] = useState(false);
+  const [customTime, setCustomTime] = useState(() => {
+    const savedTime = localStorage.getItem('customTime');
+    return savedTime ? parseInt(savedTime, 10) : initialTime;
+  });
+  const [time, setTime] = useState(() => {
+    const savedTime = localStorage.getItem('time');
+    return savedTime ? parseInt(savedTime, 10) : initialTime * 60;
+  });
+  const [isRunning, setIsRunning] = useState(() => {
+    const savedIsRunning = localStorage.getItem('isRunning');
+    return savedIsRunning ? JSON.parse(savedIsRunning) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('customTime', customTime);
+  }, [customTime]);
+
+  useEffect(() => {
+    localStorage.setItem('time', time);
+  }, [time]);
+
+  useEffect(() => {
+    localStorage.setItem('isRunning', isRunning);
+  }, [isRunning]);
 
   useEffect(() => {
     let timer;

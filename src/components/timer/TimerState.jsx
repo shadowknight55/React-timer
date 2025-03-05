@@ -11,7 +11,7 @@ import { useSettings } from '../../context/SettingsContext';
  * @param initialTime - The initial time in minutes.
  */
 const TimerState = ({ initialTime }) => {
-  const { settings, incrementStreak } = useSettings();
+  const { settings, incrementStreak, updateSetting } = useSettings();
   const {
     customTime,
     setCustomTime,
@@ -26,6 +26,19 @@ const TimerState = ({ initialTime }) => {
 
   const { notifications, addNotification, removeNotification } = useNotifications();
   const [hasNotified, setHasNotified] = useState(false);
+  const [sessionStartTime, setSessionStartTime] = useState(null);
+
+  useEffect(() => {
+    if (isRunning && sessionStartTime === null) {
+      setSessionStartTime(Date.now());
+    } else if (!isRunning && sessionStartTime !== null) {
+      const sessionDuration = (Date.now() - sessionStartTime) / 1000; // Duration in seconds
+      const newSession = { duration: sessionDuration, timestamp: new Date() };
+      const updatedSessions = [...settings.sessions, newSession];
+      updateSetting('sessions', updatedSessions);
+      setSessionStartTime(null);
+    }
+  }, [isRunning, sessionStartTime, settings.sessions, updateSetting]);
 
   useEffect(() => {
     if (time === 0 && !hasNotified) {
