@@ -7,7 +7,7 @@ import Card from './components/common/Card';
 import SettingsPanel from './components/settings/SettingsPanel';
 import ProgressPage from './pages/ProgressPage';
 import ErrorBoundary from './components/common/ErrorBoundary';
-import { SettingsProvider, useSettings } from './components/settings/SettingsContext';
+import { SettingsProvider, useSettings } from './context/SettingsContext';
 
 const App = () => {
   return (

@@ -11,8 +11,8 @@ const useNotifications = () => {
     ]);
   };
 
-  const removeNotification = () => {
-    setNotifications((prevNotifications) => prevNotifications.slice(1));
+  const removeNotification = (id) => {
+    setNotifications((prevNotifications) => prevNotifications.filter(notification => notification.id !== id));
   };
 
   return { notifications, addNotification, removeNotification };

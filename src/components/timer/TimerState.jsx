@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import useTimer from '../../hooks/useTimer';
 import TimerDisplay from './TimerDisplay';
 import TimerControls from './TimerControls';
 import useNotifications from '../../hooks/useNotifications';
-import ToastManager from '../feedback/ToastManager';
-import { useSettings } from '../settings/SettingsContext';
+import Notification from '../feedback/Notification';
+import { useSettings } from '../../context/SettingsContext';
 
 /**
  * TimerState component to manage and display the timer state.
@@ -29,6 +29,7 @@ const TimerState = ({ initialTime }) => {
 
   useEffect(() => {
     if (time === 0 && !hasNotified) {
+      console.log('Timer ended, showing notification');
       addNotification('Session over, updating streak');
       incrementStreak();
       setHasNotified(true);
@@ -41,6 +42,10 @@ const TimerState = ({ initialTime }) => {
     }
   }, [time]);
 
+  const handleNotificationClose = (id) => {
+    removeNotification(id);
+  };
+
   return (
     <div>
       <TimerDisplay minutes={minutes} seconds={seconds} />
@@ -52,7 +57,13 @@ const TimerState = ({ initialTime }) => {
         onStop={onStop}
         onReset={onReset}
       />
-      <ToastManager notifications={notifications} removeNotification={removeNotification} />
+      {notifications.map((notification) => (
+        <Notification
+          key={notification.id}
+          message={notification.message}
+          onClose={() => handleNotificationClose(notification.id)}
+        />
+      ))}
     </div>
   );
 };

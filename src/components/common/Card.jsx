@@ -1,6 +1,6 @@
 import React from 'react';
 import TimerState from '../timer/TimerState';
-import { useSettings } from '../settings/SettingsContext';
+import { useSettings } from '../../context/SettingsContext';
 
 const Card = () => {
   const { settings } = useSettings();

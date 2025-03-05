@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { SettingsContext } from "./SettingsContext";
+import { SettingsContext } from "../../context/SettingsContext";
 import "./SettingsPanel.css";
 
 export default function SettingsPanel() {

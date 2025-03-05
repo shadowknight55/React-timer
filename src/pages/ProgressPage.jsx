@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSettings } from '../components/settings/SettingsContext';
+import { useSettings } from '../context/SettingsContext';
 
 const ProgressPage = () => {
   const { settings } = useSettings();
