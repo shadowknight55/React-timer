@@ -42,7 +42,6 @@ export default function SettingsPanel() {
         Theme:
         <select value={settings.theme} onChange={(e) => updateSetting("theme", e.target.value)}>
           <option value="light">Light</option>
-          <option value="dark">Dark</option>
         </select>
       </label>
 

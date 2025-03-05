@@ -1,10 +1,13 @@
 import React from 'react';
+import { useSettings } from '../../context/SettingsContext';
 
 const Notification = ({ message, onClose }) => {
+  const { settings } = useSettings();
+
   return (
-    <div className="notification">
+    <div className={`notification ${settings.theme}`}>
       <p>{message}</p>
-      <button onClick={onClose}>Close</button>
+      <button onClick={onClose} className={settings.theme}>Close</button>
     </div>
   );
 };
