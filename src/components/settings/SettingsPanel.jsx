@@ -14,14 +14,14 @@ export default function SettingsPanel() {
         focusTime: 25,
       });
     }
-  }, []);
+  }, [settings.timerPresets, updateSetting]);
 
   function handlePresetChange(event) {
     const { name, value } = event.target;
     const newValue = parseInt(value, 10);
 
-    // Ensure the value is within a valid range (1-60 minutes)
-    if (newValue >= 1 && newValue <= 60) {
+    // Ensure the value is within a valid range (1-1440 minutes)
+    if (newValue >= 1 && newValue <= 1440) {
       setLocalPresets((prev) => ({
         ...prev,
         [name]: newValue
@@ -42,6 +42,7 @@ export default function SettingsPanel() {
         Theme:
         <select value={settings.theme} onChange={(e) => updateSetting("theme", e.target.value)}>
           <option value="light">Light</option>
+          <option value="dark">Dark</option>
         </select>
       </label>
 
