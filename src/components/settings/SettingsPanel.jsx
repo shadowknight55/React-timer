@@ -8,6 +8,7 @@ export default function SettingsPanel() {
     focusTime: 25,
   });
 
+  // Effect to initialize timer presets if not already set
   useEffect(() => {
     if (!settings.timerPresets) {
       updateSetting('timerPresets', {
@@ -16,6 +17,7 @@ export default function SettingsPanel() {
     }
   }, [settings.timerPresets, updateSetting]);
 
+  // Handle changes to the timer preset input
   function handlePresetChange(event) {
     const { name, value } = event.target;
     const newValue = parseInt(value, 10);
@@ -29,6 +31,7 @@ export default function SettingsPanel() {
     }
   }
 
+  // Save the updated timer presets
   function savePresets() {
     updateSetting("timerPresets", localPresets);
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSettings } from '../../context/SettingsContext';
 
+// Notification component to display messages
 const Notification = ({ message, onClose }) => {
   const { settings } = useSettings();
 

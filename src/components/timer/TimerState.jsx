@@ -28,6 +28,7 @@ const TimerState = ({ initialTime }) => {
   const [hasNotified, setHasNotified] = useState(false);
   const [sessionStartTime, setSessionStartTime] = useState(null);
 
+  // Effect to handle session start and stop
   useEffect(() => {
     if (isRunning && sessionStartTime === null) {
       setSessionStartTime(Date.now());
@@ -40,6 +41,7 @@ const TimerState = ({ initialTime }) => {
     }
   }, [isRunning, sessionStartTime, settings.sessions, updateSetting]);
 
+  // Effect to handle timer end and notification
   useEffect(() => {
     if (time === 0 && !hasNotified) {
       console.log('Timer ended, showing notification');
@@ -49,12 +51,14 @@ const TimerState = ({ initialTime }) => {
     }
   }, [time, addNotification, hasNotified, incrementStreak]);
 
+  // Effect to reset notification state when time is greater than 0
   useEffect(() => {
     if (time > 0) {
       setHasNotified(false);
     }
   }, [time]);
 
+  // Function to handle notification close
   const handleNotificationClose = (id) => {
     removeNotification(id);
   };
