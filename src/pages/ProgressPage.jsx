@@ -39,6 +39,16 @@ const ProgressPage = () => {
           height={300}
         />
       </Box>
+      <Box sx={{ mt: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Rewards
+        </Typography>
+        <ul>
+          {settings.rewards.map((reward, index) => (
+            <li key={index}>{reward}</li>
+          ))}
+        </ul>
+      </Box>
     </Box>
   );
 };

@@ -20,6 +20,7 @@ export const SettingsProvider = ({ children }) => {
     },
     streak: 0, // Initial streak value
     sessions: [], // Array to store session durations
+    rewards: [], // Array to store rewards
   });
 
   // Function to update a specific setting
@@ -27,9 +28,23 @@ export const SettingsProvider = ({ children }) => {
     setSettings((prevSettings) => ({ ...prevSettings, [key]: value }));
   };
 
-  // Function to increment the streak
+  // Function to increment the streak and add rewards
   const incrementStreak = () => {
-    setSettings((prevSettings) => ({ ...prevSettings, streak: prevSettings.streak + 1 }));
+    setSettings((prevSettings) => {
+      const newStreak = prevSettings.streak + 1;
+      const newRewards = [...prevSettings.rewards];
+
+      // Add rewards based on the streak
+      if (newStreak === 5) {
+        newRewards.push('5-session streak! Keep it up!');
+      } else if (newStreak === 10) {
+        newRewards.push('10-session streak! Great job!');
+      } else if (newStreak === 20) {
+        newRewards.push('20-session streak! Amazing!');
+      }
+
+      return { ...prevSettings, streak: newStreak, rewards: newRewards };
+    });
   };
 
   // Effect to update the document's class name based on the theme
