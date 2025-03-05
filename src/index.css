@@ -114,10 +114,18 @@ button:focus-visible {
   right: 20px;
   background-color: #333;
   color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notification p {
+  margin: 0;
+  font-size: 16px;
 }
 
 .notification button {
@@ -126,7 +134,12 @@ button:focus-visible {
   color: #fff;
   font-size: 16px;
   cursor: pointer;
-  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+.notification button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 @media (prefers-color-scheme: light) {
