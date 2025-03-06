@@ -32,7 +32,7 @@ const useTimer = (initialTime) => {
     setIsRunning(true);
     if (!hasStarted) {
       setHasStarted(true);
-      addReward('Started the timer for the first time!');
+      addReward('First Timer: Started the timer for the first time!');
     }
     incrementStartStopCount();
   }, [hasStarted, addReward, incrementStartStopCount]);
