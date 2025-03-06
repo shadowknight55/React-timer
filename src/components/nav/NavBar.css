@@ -1,6 +1,15 @@
 .navbar {
   background-color: #333;
   overflow: hidden;
+  position: fixed;
+  height: 60px; /* Adjust the height to make it smaller */
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .navbar ul {
@@ -9,10 +18,11 @@
   padding: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .navbar li {
-  float: left;
+  margin: 0 10px;
 }
 
 .navbar li a {
