@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import { SettingsContext } from "../../context/SettingsContext";
-import { useNotification } from "../../context/NotificationContext";
 import "./SettingsPanel.css";
 
 /**
@@ -8,7 +7,6 @@ import "./SettingsPanel.css";
  */
 export default function SettingsPanel() {
   const { settings, updateSetting } = useContext(SettingsContext);
-  const { resetRewards } = useNotification();
   const [localPresets, setLocalPresets] = useState({
     hours: Math.floor(settings.timerPresets.focusTime / 60),
     minutes: settings.timerPresets.focusTime % 60,
@@ -46,12 +44,6 @@ export default function SettingsPanel() {
   function savePresets() {
     const totalMinutes = localPresets.hours * 60 + localPresets.minutes;
     updateSetting("timerPresets", { focusTime: totalMinutes });
-  }
-
-  // Function to reset local storage
-  function resetLocalStorage() {
-    localStorage.clear();
-    window.location.reload();
   }
 
   return (
@@ -97,12 +89,6 @@ export default function SettingsPanel() {
         <input type="number" name="minutes" value={localPresets.minutes} onChange={handlePresetChange} />
       </label>
       <button onClick={savePresets}>Save Timer Presets</button>
-
-      {/* Reset Rewards */}
-      <button onClick={resetRewards}>Reset Rewards</button>
-
-      {/* Reset Local Storage */}
-      <button onClick={resetLocalStorage}>Reset Local Storage</button>
     </div>
   );
 }
