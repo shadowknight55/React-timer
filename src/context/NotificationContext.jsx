@@ -12,7 +12,8 @@ const allRewards = [
   '5-session streak! Keep it up!',
   '10-session streak! Great job!',
   '20-session streak! Amazing!',
-  'Started and stopped the timer 5 times!'
+  'Started and stopped the timer 5 times!',
+  'Started and stopped the timer 15 times!'
 ];
 
 export const NotificationProvider = ({ children }) => {
@@ -80,6 +81,9 @@ export const NotificationProvider = ({ children }) => {
     setStartStopCount(newCount);
     if (newCount === 5) {
       addReward('Started and stopped the timer 5 times!');
+    }
+    if (newCount === 15) {
+      addReward('Started and stopped the timer 15 times!');
     }
   };
 
