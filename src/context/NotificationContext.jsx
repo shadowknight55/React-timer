@@ -1,12 +1,15 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useSettings } from './SettingsContext';
 
+// Create a context for notifications
 const NotificationContext = createContext();
 
+// Custom hook to use the notification context
 export const useNotification = () => {
   return useContext(NotificationContext);
 };
 
+// List of all possible rewards
 const allRewards = [
   'First Timer: Started the timer for the first time!',
   'Consistency Champ: 5-session streak! Keep it up!',
@@ -20,6 +23,7 @@ const allRewards = [
   'Monthly Master: Used the timer every day for a month!'
 ];
 
+// NotificationProvider component to provide notification context to its children
 export const NotificationProvider = ({ children }) => {
   const { settings, updateSetting } = useSettings();
   const [notifications, setNotifications] = useState([]);
@@ -32,14 +36,17 @@ export const NotificationProvider = ({ children }) => {
     return savedCount ? JSON.parse(savedCount) : 0;
   });
 
+  // Save rewards to local storage whenever they change
   useEffect(() => {
     localStorage.setItem('rewards', JSON.stringify(rewards));
   }, [rewards]);
 
+  // Save start/stop count to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem('startStopCount', JSON.stringify(startStopCount));
   }, [startStopCount]);
 
+  // Function to add a notification
   const addNotification = (message) => {
     const id = Date.now();
     setNotifications((prevNotifications) => [
@@ -48,12 +55,14 @@ export const NotificationProvider = ({ children }) => {
     ]);
   };
 
+  // Function to remove a notification
   const removeNotification = (id) => {
     setNotifications((prevNotifications) =>
       prevNotifications.filter((notification) => notification.id !== id)
     );
   };
 
+  // Function to add a reward
   const addReward = (reward) => {
     if (!rewards.includes(reward)) {
       setRewards((prevRewards) => [...prevRewards, reward]);
@@ -62,12 +71,14 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
+  // Function to reset rewards
   const resetRewards = () => {
     setRewards([]);
     updateSetting('rewards', []);
     addNotification('Rewards have been reset.');
   };
 
+  // Function to increment the streak
   const incrementStreak = () => {
     updateSetting('streak', settings.streak + 1);
     const newStreak = settings.streak + 1;
@@ -86,6 +97,7 @@ export const NotificationProvider = ({ children }) => {
     updateSetting('rewards', newRewards);
   };
 
+  // Function to increment the start/stop count
   const incrementStartStopCount = () => {
     const newCount = startStopCount + 1;
     setStartStopCount(newCount);
@@ -97,6 +109,7 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
+  // Function to check and add session duration rewards
   const checkSessionDurationRewards = (sessionDuration) => {
     if (sessionDuration >= 30 * 60 && !rewards.includes('Half Hour Hero: Completed a 30-minute session!')) {
       addReward('Half Hour Hero: Completed a 30-minute session!');
@@ -106,6 +119,7 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
+  // Function to check and add daily usage rewards
   const checkDailyUsageRewards = () => {
     const today = new Date().toDateString();
     const lastSessionDate = settings.sessions.length > 0 ? new Date(settings.sessions[settings.sessions.length - 1].timestamp).toDateString() : null;

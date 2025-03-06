@@ -2,6 +2,9 @@ import React from 'react';
 import { useNotification } from '../../context/NotificationContext';
 import Notification from './Notification';
 
+/**
+ * NotificationSystem component to display notifications.
+ */
 const NotificationSystem = () => {
   const { notifications, removeNotification } = useNotification();
 

@@ -3,6 +3,9 @@ import { SettingsContext } from "../../context/SettingsContext";
 import { useNotification } from "../../context/NotificationContext";
 import "./SettingsPanel.css";
 
+/**
+ * SettingsPanel component to manage application settings.
+ */
 export default function SettingsPanel() {
   const { settings, updateSetting } = useContext(SettingsContext);
   const { resetRewards } = useNotification();

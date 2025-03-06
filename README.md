@@ -1,5 +1,14 @@
 # React Timer
-
+Week 1
+-Bulit basic timer 
+Week 2
+add funtion to timer so it could count down 
+week 3 
+Added setting page to custom mizes timer
+Added home page
+Added progress page to see streak and chart
+week 4
+Add hours to timer rewards and the abilty to see them and made app look nicer
 ## Overview
 This is a focus timer that can help with work or anything when you need to focus for a set time
 
@@ -24,17 +33,18 @@ This is a focus timer that can help with work or anything when you need to focus
 
 ## Project Structure
 
-- `src/hooks/useTimer.ts`: Custom hook to manage the timer state and logic.
+- `src/hooks/useTimer.js`: Custom hook to manage the timer state and logic.
 - `src/components/timer/TimerState.jsx`: Component to manage and display the timer state.
 - `src/components/timer/TimerControls.jsx`: Component to manage timer controls (start, stop, reset).
 - `src/components/timer/TimerDisplay.jsx`: Component to display the remaining time.
 - `src/components/common/ErrorBoundary.jsx`: Component to catch and handle errors in the component tree.
 - `src/components/common/Button.jsx`: Reusable button component.
-- `src/components/common/Card.jsx`: Component to wrap the timer state and display.
 - `src/components/nav/NavBar.jsx`: Component for the navigation bar.
 - `src/components/settings/SettingsPanel.jsx`: Component for the settings panel.
-- `src/components/settings/SettingsContext.jsx`: Context for managing settings.
+- `src/context/SettingsContext.jsx`: Context for managing settings.
 - `src/components/feedback/NotificationSystem.jsx`: Component for displaying notifications.
+- `src/components/feedback/Notification.jsx`: Component to display a single notification.
+- `src/context/NotificationContext.jsx`: Context for managing notifications and rewards.
 - `src/pages/HomePage.jsx`: Component for the home page.
 - `src/pages/ProgressPage.jsx`: Component for the progress page.
 - `src/App.jsx`: Main application component.
@@ -42,8 +52,13 @@ This is a focus timer that can help with work or anything when you need to focus
 ## Dependencies List
 - React
 - React DOM
-- React Scripts
-- web-vitals
+- React Router DOM
+- @mui/material-mui
+- @emotion/react
+- @emotion/styled
+- styled-components
+- tailwindcss
+- @mui/x-charts
 
 ## Usage Guidelines
 1. **Set the Timer:**

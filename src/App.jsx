@@ -11,6 +11,9 @@ import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { NotificationProvider } from './context/NotificationContext';
 import NotificationSystem from './components/feedback/NotificationSystem';
 
+/**
+ * App component to provide the main structure of the application.
+ */
 const App = () => {
   return (
     <SettingsProvider>
@@ -29,6 +32,9 @@ const App = () => {
   );
 };
 
+/**
+ * MainApp component to provide the main content of the application.
+ */
 const MainApp = () => {
   const { settings } = useSettings();
 
