@@ -20,12 +20,16 @@ export const SettingsProvider = ({ children }) => {
     },
     streak: 0, // Initial streak value
     sessions: [], // Array to store session durations
-    rewards: [], // Array to store rewards
   });
 
   // Function to update a specific setting
   const updateSetting = (key, value) => {
     setSettings((prevSettings) => ({ ...prevSettings, [key]: value }));
+  };
+
+  // Function to increment the streak
+  const incrementStreak = () => {
+    setSettings((prevSettings) => ({ ...prevSettings, streak: prevSettings.streak + 1 }));
   };
 
   // Effect to update the document's class name based on the theme
@@ -34,7 +38,7 @@ export const SettingsProvider = ({ children }) => {
   }, [settings.theme]);
 
   return (
-    <SettingsContext.Provider value={{ settings, updateSetting }}>
+    <SettingsContext.Provider value={{ settings, updateSetting, incrementStreak }}>
       {children}
     </SettingsContext.Provider>
   );

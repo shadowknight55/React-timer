@@ -8,12 +8,10 @@ export const useNotification = () => {
 };
 
 const allRewards = [
-  'Started the timer for the first time!',
-  '5-session streak! Keep it up!',
-  '10-session streak! Great job!',
-  '20-session streak! Amazing!',
-  'Started and stopped the timer 5 times!',
-  'Started and stopped the timer 15 times!'
+  'Consistency Champ: 5-session streak! Keep it up!',
+  'Double Digits: 10-session streak! Great job!',
+  'Marathoner: 20-session streak! Amazing!',
+  'Persistent Procrastinator: Started and stopped the timer 15 times!'
 ];
 
 export const NotificationProvider = ({ children }) => {
@@ -64,12 +62,12 @@ export const NotificationProvider = ({ children }) => {
     const newRewards = [...rewards];
 
     // Add rewards based on the streak
-    if (newStreak === 5 && !newRewards.includes('5-session streak! Keep it up!')) {
-      newRewards.push('5-session streak! Keep it up!');
-    } else if (newStreak === 10 && !newRewards.includes('10-session streak! Great job!')) {
-      newRewards.push('10-session streak! Great job!');
-    } else if (newStreak === 20 && !newRewards.includes('20-session streak! Amazing!')) {
-      newRewards.push('20-session streak! Amazing!');
+    if (newStreak === 5 && !newRewards.includes('Consistency Champ: 5-session streak! Keep it up!')) {
+      newRewards.push('Consistency Champ: 5-session streak! Keep it up!');
+    } else if (newStreak === 10 && !newRewards.includes('Double Digits: 10-session streak! Great job!')) {
+      newRewards.push('Double Digits: 10-session streak! Great job!');
+    } else if (newStreak === 20 && !newRewards.includes('Marathoner: 20-session streak! Amazing!')) {
+      newRewards.push('Marathoner: 20-session streak! Amazing!');
     }
 
     setRewards(newRewards);
@@ -80,10 +78,10 @@ export const NotificationProvider = ({ children }) => {
     const newCount = startStopCount + 1;
     setStartStopCount(newCount);
     if (newCount === 5) {
-      addReward('Started and stopped the timer 5 times!');
+      addReward('Procrastinator: Started and stopped the timer 5 times!');
     }
     if (newCount === 15) {
-      addReward('Started and stopped the timer 15 times!');
+      addReward('Persistent Procrastinator: Started and stopped the timer 15 times!');
     }
   };
 
