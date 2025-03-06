@@ -9,7 +9,8 @@ const ProgressPage = () => {
   const { settings } = useSettings();
   const { rewards, allRewards } = useNotification();
   const [sessionData, setSessionData] = useState([]);
-  const [showRewardPopup, setShowRewardPopup] = useState(false);
+  const [showEarnedRewardPopup, setShowEarnedRewardPopup] = useState(false);
+  const [showUnearnedRewardPopup, setShowUnearnedRewardPopup] = useState(false);
 
   useEffect(() => {
     // Generate data for the chart based on the session durations
@@ -42,19 +43,15 @@ const ProgressPage = () => {
         <Typography variant="h6" gutterBottom>
           Earned Rewards
         </Typography>
-        <List>
-          {rewards.map((reward, index) => (
-            <ListItem key={index}>
-              <ListItemText primary={reward} />
-            </ListItem>
-          ))}
-        </List>
+        <Button variant="outlined" onClick={() => setShowEarnedRewardPopup(true)}>
+          Show Earned Rewards
+        </Button>
       </Paper>
       <Paper sx={{ p: 2, mt: 3 }}>
         <Typography variant="h6" gutterBottom>
           Unearned Rewards
         </Typography>
-        <Button variant="outlined" onClick={() => setShowRewardPopup(true)}>
+        <Button variant="outlined" onClick={() => setShowUnearnedRewardPopup(true)}>
           Show Unearned Rewards
         </Button>
       </Paper>
@@ -73,7 +70,8 @@ const ProgressPage = () => {
           height={300}
         />
       </Paper>
-      {showRewardPopup && <RewardPopup rewards={unearnedRewards} onClose={() => setShowRewardPopup(false)} />}
+      {showEarnedRewardPopup && <RewardPopup rewards={rewards} onClose={() => setShowEarnedRewardPopup(false)} />}
+      {showUnearnedRewardPopup && <RewardPopup rewards={unearnedRewards} onClose={() => setShowUnearnedRewardPopup(false)} />}
     </Box>
   );
 };

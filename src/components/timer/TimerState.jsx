@@ -5,13 +5,15 @@ import TimerControls from './TimerControls';
 import useNotifications from '../../hooks/useNotifications';
 import Notification from '../feedback/Notification';
 import { useSettings } from '../../context/SettingsContext';
+import { useNotification } from '../../context/NotificationContext';
 
 /**
  * TimerState component to manage and display the timer state.
  * @param initialTime - The initial time in minutes.
  */
 const TimerState = ({ initialTime }) => {
-  const { settings, incrementStreak, updateSetting } = useSettings();
+  const { settings, updateSetting } = useSettings();
+  const { incrementStreak, checkSessionDurationRewards, checkDailyUsageRewards } = useNotification();
   const {
     customTime,
     setCustomTime,
@@ -38,9 +40,11 @@ const TimerState = ({ initialTime }) => {
       const newSession = { duration: sessionDuration, timestamp: new Date() };
       const updatedSessions = [...settings.sessions, newSession];
       updateSetting('sessions', updatedSessions);
+      checkSessionDurationRewards(sessionDuration);
+      checkDailyUsageRewards();
       setSessionStartTime(null);
     }
-  }, [isRunning, sessionStartTime, settings.sessions, updateSetting]);
+  }, [isRunning, sessionStartTime, settings.sessions, updateSetting, checkSessionDurationRewards, checkDailyUsageRewards]);
 
   // Effect to handle timer end and notification
   useEffect(() => {

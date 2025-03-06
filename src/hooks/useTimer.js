@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNotification } from '../context/NotificationContext';
 
 const useTimer = (initialTime) => {
@@ -28,24 +28,24 @@ const useTimer = (initialTime) => {
     return () => clearInterval(timer);
   }, [isRunning, time, incrementStreak]);
 
-  const onStart = () => {
+  const onStart = useCallback(() => {
     setIsRunning(true);
     if (!hasStarted) {
       setHasStarted(true);
       addReward('Started the timer for the first time!');
     }
     incrementStartStopCount();
-  };
+  }, [hasStarted, addReward, incrementStartStopCount]);
 
-  const onStop = () => {
+  const onStop = useCallback(() => {
     setIsRunning(false);
     incrementStartStopCount();
-  };
+  }, [incrementStartStopCount]);
 
-  const onReset = () => {
+  const onReset = useCallback(() => {
     setIsRunning(false);
     setTime(customTime * 60);
-  };
+  }, [customTime]);
 
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time % 3600) / 60);

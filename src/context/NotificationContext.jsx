@@ -8,10 +8,16 @@ export const useNotification = () => {
 };
 
 const allRewards = [
+  'First Timer: Started the timer for the first time!',
   'Consistency Champ: 5-session streak! Keep it up!',
   'Double Digits: 10-session streak! Great job!',
   'Marathoner: 20-session streak! Amazing!',
-  'Persistent Procrastinator: Started and stopped the timer 15 times!'
+  'Procrastinator: Started and stopped the timer 5 times!',
+  'Persistent Procrastinator: Started and stopped the timer 15 times!',
+  'Half Hour Hero: Completed a 30-minute session!',
+  'Hour of Power: Completed a 60-minute session!',
+  'Daily Grinder: Used the timer every day for a week!',
+  'Monthly Master: Used the timer every day for a month!'
 ];
 
 export const NotificationProvider = ({ children }) => {
@@ -56,6 +62,12 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
+  const resetRewards = () => {
+    setRewards([]);
+    updateSetting('rewards', []);
+    addNotification('Rewards have been reset.');
+  };
+
   const incrementStreak = () => {
     updateSetting('streak', settings.streak + 1);
     const newStreak = settings.streak + 1;
@@ -85,9 +97,43 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
+  const checkSessionDurationRewards = (sessionDuration) => {
+    if (sessionDuration >= 30 * 60 && !rewards.includes('Half Hour Hero: Completed a 30-minute session!')) {
+      addReward('Half Hour Hero: Completed a 30-minute session!');
+    }
+    if (sessionDuration >= 60 * 60 && !rewards.includes('Hour of Power: Completed a 60-minute session!')) {
+      addReward('Hour of Power: Completed a 60-minute session!');
+    }
+  };
+
+  const checkDailyUsageRewards = () => {
+    const today = new Date().toDateString();
+    const lastSessionDate = settings.sessions.length > 0 ? new Date(settings.sessions[settings.sessions.length - 1].timestamp).toDateString() : null;
+    if (lastSessionDate !== today) {
+      const newSession = { duration: 0, timestamp: new Date() };
+      const updatedSessions = [...settings.sessions, newSession];
+      updateSetting('sessions', updatedSessions);
+    }
+
+    const dailyUsage = settings.sessions.reduce((acc, session) => {
+      const date = new Date(session.timestamp).toDateString();
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    }, {});
+
+    const dailyUsageCount = Object.keys(dailyUsage).length;
+
+    if (dailyUsageCount >= 7 && !rewards.includes('Daily Grinder: Used the timer every day for a week!')) {
+      addReward('Daily Grinder: Used the timer every day for a week!');
+    }
+    if (dailyUsageCount >= 30 && !rewards.includes('Monthly Master: Used the timer every day for a month!')) {
+      addReward('Monthly Master: Used the timer every day for a month!');
+    }
+  };
+
   return (
     <NotificationContext.Provider
-      value={{ notifications, addNotification, removeNotification, rewards, addReward, incrementStreak, allRewards, incrementStartStopCount }}
+      value={{ notifications, addNotification, removeNotification, rewards, addReward, resetRewards, incrementStreak, allRewards, incrementStartStopCount, checkSessionDurationRewards, checkDailyUsageRewards }}
     >
       {children}
     </NotificationContext.Provider>

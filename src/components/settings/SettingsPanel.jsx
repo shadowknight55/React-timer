@@ -1,13 +1,14 @@
 import { useContext, useState, useEffect } from "react";
 import { SettingsContext } from "../../context/SettingsContext";
+import { useNotification } from "../../context/NotificationContext";
 import "./SettingsPanel.css";
 
 export default function SettingsPanel() {
   const { settings, updateSetting } = useContext(SettingsContext);
+  const { resetRewards } = useNotification();
   const [localPresets, setLocalPresets] = useState({
     hours: Math.floor(settings.timerPresets.focusTime / 60),
     minutes: settings.timerPresets.focusTime % 60,
-    seconds: 0,
   });
 
   // Effect to initialize timer presets if not already set
@@ -31,11 +32,6 @@ export default function SettingsPanel() {
         [name]: newValue
       }));
     } else if (name === 'minutes' && newValue >= 0 && newValue <= 59) {
-      setLocalPresets((prev) => ({
-        ...prev,
-        [name]: newValue
-      }));
-    } else if (name === 'seconds' && newValue >= 0 && newValue <= 59) {
       setLocalPresets((prev) => ({
         ...prev,
         [name]: newValue
@@ -91,11 +87,10 @@ export default function SettingsPanel() {
         Minutes:
         <input type="number" name="minutes" value={localPresets.minutes} onChange={handlePresetChange} />
       </label>
-      <label>
-        Seconds:
-        <input type="number" name="seconds" value={localPresets.seconds} onChange={handlePresetChange} />
-      </label>
       <button onClick={savePresets}>Save Timer Presets</button>
+
+      {/* Reset Rewards */}
+      <button onClick={resetRewards}>Reset Rewards</button>
     </div>
   );
 }
