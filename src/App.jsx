@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/nav/NavBar';
 import HomePage from './pages/HomePage';
-import Card from './components/common/Card';
+import TimerPage from './pages/TimerPage';
 import SettingsPanel from './components/settings/SettingsPanel';
 import ProgressPage from './pages/ProgressPage';
 import ErrorBoundary from './components/common/ErrorBoundary';
@@ -36,7 +36,7 @@ const MainApp = () => {
     <div className={`app ${settings.theme}`}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/timer" element={<Card />} />
+        <Route path="/timer" element={<TimerPage />} />
         <Route path="/settings" element={<SettingsPanel />} />
         <Route path="/progress" element={<ProgressPage />} />
       </Routes>

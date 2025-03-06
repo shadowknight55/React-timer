@@ -27,18 +27,13 @@ export const SettingsProvider = ({ children }) => {
     setSettings((prevSettings) => ({ ...prevSettings, [key]: value }));
   };
 
-  // Function to increment the streak
-  const incrementStreak = () => {
-    setSettings((prevSettings) => ({ ...prevSettings, streak: prevSettings.streak + 1 }));
-  };
-
   // Effect to update the document's class name based on the theme
   useEffect(() => {
     document.documentElement.className = settings.theme;
   }, [settings.theme]);
 
   return (
-    <SettingsContext.Provider value={{ settings, updateSetting, incrementStreak }}>
+    <SettingsContext.Provider value={{ settings, updateSetting }}>
       {children}
     </SettingsContext.Provider>
   );

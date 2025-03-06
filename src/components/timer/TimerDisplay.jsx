@@ -14,7 +14,6 @@ const TimerDisplay = ({ minutes, seconds }) => {
   return (
     // Display the formatted time
     <div className={`timer-display ${settings.theme}`}>
-      <h1>Focus Timer</h1>
       <h2>{formattedMinutes}:{formattedSeconds}</h2>
     </div>
   );

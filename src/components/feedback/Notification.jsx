@@ -1,14 +1,13 @@
 import React from 'react';
-import { useSettings } from '../../context/SettingsContext';
+import { useNotification } from '../../context/NotificationContext';
 
-// Notification component to display messages
-const Notification = ({ message, onClose }) => {
-  const { settings } = useSettings();
+const Notification = ({ message, id }) => {
+  const { removeNotification } = useNotification();
 
   return (
-    <div className={`notification ${settings.theme}`}>
+    <div className="notification">
       <p>{message}</p>
-      <button onClick={onClose} className={settings.theme}>Close</button>
+      <button onClick={() => removeNotification(id)}>Close</button>
     </div>
   );
 };

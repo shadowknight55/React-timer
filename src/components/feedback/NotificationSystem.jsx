@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useNotification } from '../../context/NotificationContext';
+import Notification from './Notification';
 
-const NotificationSystem = ({ notifications, removeNotification }) => {
-  // Effect to automatically remove notifications after 5 seconds
- 
+const NotificationSystem = () => {
+  const { notifications, removeNotification } = useNotification();
+
   return (
     <div className="notification-system">
-      {notifications.map((notification, index) => (
-        <div key={index} className="notification">
-          {notification}
-          <button onClick={() => removeNotification(index)}>Close</button>
-        </div>
+      {notifications.map((notification) => (
+        <Notification key={notification.id} {...notification} />
       ))}
     </div>
   );
