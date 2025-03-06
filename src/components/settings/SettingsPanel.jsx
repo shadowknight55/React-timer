@@ -45,6 +45,12 @@ export default function SettingsPanel() {
     updateSetting("timerPresets", { focusTime: totalMinutes });
   }
 
+  // Function to reset local storage
+  function resetLocalStorage() {
+    localStorage.clear();
+    window.location.reload();
+  }
+
   return (
     <div className="settings-panel">
       <h2>Settings</h2>
@@ -91,6 +97,9 @@ export default function SettingsPanel() {
 
       {/* Reset Rewards */}
       <button onClick={resetRewards}>Reset Rewards</button>
+
+      {/* Reset Local Storage */}
+      <button onClick={resetLocalStorage}>Reset Local Storage</button>
     </div>
   );
 }
