@@ -2,11 +2,18 @@ import { useState, useEffect } from 'react';
 import { useNotification } from '../context/NotificationContext';
 
 const useTimer = (initialTime) => {
-  const { addReward, incrementStreak } = useNotification();
+  const { addReward, incrementStreak, incrementStartStopCount } = useNotification();
   const [customTime, setCustomTime] = useState(initialTime);
   const [time, setTime] = useState(initialTime * 60);
   const [isRunning, setIsRunning] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
+  const [hasStarted, setHasStarted] = useState(() => {
+    const savedHasStarted = localStorage.getItem('hasStarted');
+    return savedHasStarted ? JSON.parse(savedHasStarted) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('hasStarted', JSON.stringify(hasStarted));
+  }, [hasStarted]);
 
   useEffect(() => {
     let timer;
@@ -27,9 +34,14 @@ const useTimer = (initialTime) => {
       setHasStarted(true);
       addReward('Started the timer for the first time!');
     }
+    incrementStartStopCount();
   };
 
-  const onStop = () => setIsRunning(false);
+  const onStop = () => {
+    setIsRunning(false);
+    incrementStartStopCount();
+  };
+
   const onReset = () => {
     setIsRunning(false);
     setTime(customTime * 60);
