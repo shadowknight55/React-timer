@@ -9,6 +9,7 @@ Added home page
 Added progress page to see streak and chart
 week 4
 Add hours to timer rewards and the abilty to see them and made app look nicer
+
 ## Overview
 This is a focus timer that can help with work or anything when you need to focus for a set time
 
