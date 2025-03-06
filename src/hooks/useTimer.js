@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNotification } from '../context/NotificationContext';
 
 const useTimer = (initialTime) => {
+  const { addReward, incrementStreak } = useNotification();
   const [customTime, setCustomTime] = useState(initialTime);
   const [time, setTime] = useState(initialTime * 60);
   const [isRunning, setIsRunning] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -13,11 +16,19 @@ const useTimer = (initialTime) => {
       }, 1000);
     } else if (time === 0) {
       setIsRunning(false);
+      incrementStreak();
     }
     return () => clearInterval(timer);
-  }, [isRunning, time]);
+  }, [isRunning, time, incrementStreak]);
 
-  const onStart = () => setIsRunning(true);
+  const onStart = () => {
+    setIsRunning(true);
+    if (!hasStarted) {
+      setHasStarted(true);
+      addReward('Started the timer for the first time!');
+    }
+  };
+
   const onStop = () => setIsRunning(false);
   const onReset = () => {
     setIsRunning(false);

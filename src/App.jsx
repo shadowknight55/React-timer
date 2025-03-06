@@ -8,18 +8,23 @@ import SettingsPanel from './components/settings/SettingsPanel';
 import ProgressPage from './pages/ProgressPage';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import { SettingsProvider, useSettings } from './context/SettingsContext';
+import { NotificationProvider } from './context/NotificationContext';
+import NotificationSystem from './components/feedback/NotificationSystem';
 
 const App = () => {
   return (
     <SettingsProvider>
-      <Router>
-        <div>
-          <NavBar />
-          <ErrorBoundary>
-            <MainApp />
-          </ErrorBoundary>
-        </div>
-      </Router>
+      <NotificationProvider>
+        <Router>
+          <div>
+            <NavBar />
+            <ErrorBoundary>
+              <MainApp />
+            </ErrorBoundary>
+            <NotificationSystem />
+          </div>
+        </Router>
+      </NotificationProvider>
     </SettingsProvider>
   );
 };
