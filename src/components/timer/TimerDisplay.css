@@ -1,0 +1,25 @@
+.timer-display {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.timer-display h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.timer-display .time {
+  font-size: 4em;
+  font-weight: bold;
+}
+
+.timer-display .minutes,
+.timer-display .seconds {
+  display: inline-block;
+  width: 1.2em;
+}
+
+.timer-display .colon {
+  display: inline-block;
+  width: 0.5em;
+}

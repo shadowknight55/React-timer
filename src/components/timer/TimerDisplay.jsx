@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSettings } from '../../context/SettingsContext';
+import './TimerDisplay.css';
 
 /**
  * TimerDisplay component to show the remaining time.
@@ -12,9 +13,12 @@ const TimerDisplay = ({ minutes, seconds }) => {
   const formattedSeconds = String(seconds).padStart(2, '0'); // Format seconds
 
   return (
-    // Display the formatted time
     <div className={`timer-display ${settings.theme}`}>
-      <h2>{formattedMinutes}:{formattedSeconds}</h2>
+      <div className="time">
+        <span className="minutes">{formattedMinutes}</span>
+        <span className="colon">:</span>
+        <span className="seconds">{formattedSeconds}</span>
+      </div>
     </div>
   );
 };

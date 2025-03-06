@@ -1,0 +1,19 @@
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.control-button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.control-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
