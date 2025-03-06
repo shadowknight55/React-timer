@@ -47,7 +47,8 @@ const useTimer = (initialTime) => {
     setTime(customTime * 60);
   };
 
-  const minutes = Math.floor(time / 60);
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
   const seconds = time % 60;
 
   return {
@@ -57,6 +58,7 @@ const useTimer = (initialTime) => {
     onStart,
     onStop,
     onReset,
+    hours,
     minutes,
     seconds,
     time,

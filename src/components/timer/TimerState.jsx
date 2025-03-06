@@ -19,6 +19,7 @@ const TimerState = ({ initialTime }) => {
     onStart,
     onStop,
     onReset,
+    hours,
     minutes,
     seconds,
     time,
@@ -65,7 +66,7 @@ const TimerState = ({ initialTime }) => {
 
   return (
     <div>
-      <TimerDisplay minutes={minutes} seconds={seconds} />
+      <TimerDisplay hours={hours} minutes={minutes} seconds={seconds} />
       <TimerControls
         customTime={customTime}
         setCustomTime={setCustomTime}
