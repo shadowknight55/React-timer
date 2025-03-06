@@ -5,6 +5,10 @@ import Notification from './Notification';
 const NotificationSystem = () => {
   const { notifications, removeNotification } = useNotification();
 
+  if (!notifications) {
+    return null;
+  }
+
   return (
     <div className="notification-system">
       {notifications.map((notification) => (
