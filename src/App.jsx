@@ -45,7 +45,7 @@ const MainApp = () => {
     setLoading(true);
     const timer = setTimeout(() => setLoading(false), 500); // Simulate loading time
     return () => clearTimeout(timer);
-  }, [location]);
+  }, [location]); // Ensure the dependency array only includes 'location' ai gave me this remember to get rid of to fix
 
   return (
     <div className={`app ${settings.theme}`}>
