@@ -83,6 +83,7 @@ const TimerState = ({ initialTime }) => {
         <Notification
           key={notification.id}
           message={notification.message}
+          id={notification.id} // Ensure the notification ID is passed
           onClose={() => handleNotificationClose(notification.id)}
         />
       ))}

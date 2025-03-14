@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNotification } from '../context/NotificationContext';
+import { useLocation } from 'react-router-dom'; // Import useLocation (AI)
 
 const useTimer = (initialTime) => {
   const { addReward, incrementStreak, incrementStartStopCount } = useNotification();
@@ -10,10 +11,13 @@ const useTimer = (initialTime) => {
     const savedHasStarted = localStorage.getItem('hasStarted');
     return savedHasStarted ? JSON.parse(savedHasStarted) : false;
   });
+  const location = useLocation(); // Get the location(AI)
 
   useEffect(() => {
     localStorage.setItem('hasStarted', JSON.stringify(hasStarted));
   }, [hasStarted]);
+
+  const memoizedIncrementStreak = useCallback(incrementStreak, []);//(AI)
 
   useEffect(() => {
     let timer;
@@ -23,10 +27,10 @@ const useTimer = (initialTime) => {
       }, 1000);
     } else if (time === 0) {
       setIsRunning(false);
-      incrementStreak();
+      memoizedIncrementStreak();//(AI)
     }
     return () => clearInterval(timer);
-  }, [isRunning, time, incrementStreak]);
+  }, [isRunning, time, memoizedIncrementStreak]); // (Ai)Ensure the dependency array only includes 'isRunning', 'time', and 'memoizedIncrementStreak'
 
   const onStart = useCallback(() => {
     setIsRunning(true);
