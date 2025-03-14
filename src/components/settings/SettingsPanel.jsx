@@ -47,7 +47,7 @@ export default function SettingsPanel() {
   }
 
   return (
-    <div className="settings-panel">
+    <div className={`settings-panel ${settings.theme}`}>
       <h2>Settings</h2>
 
       {/* Theme Selector */}
@@ -55,6 +55,8 @@ export default function SettingsPanel() {
         Theme:
         <select value={settings.theme} onChange={(e) => updateSetting("theme", e.target.value)}>
           <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="blue">Blue</option>
         </select>
       </label>
 
