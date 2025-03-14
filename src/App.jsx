@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/nav/NavBar';
 import HomePage from './pages/HomePage';
@@ -10,6 +10,7 @@ import ErrorBoundary from './components/common/ErrorBoundary';
 import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { NotificationProvider } from './context/NotificationContext';
 import NotificationSystem from './components/feedback/NotificationSystem';
+import LoadingBar from './components/common/LoadingBar';
 
 /**
  * App component to provide the main structure of the application.
@@ -37,10 +38,19 @@ const App = () => {
  */
 const MainApp = () => {
   const { settings } = useSettings();
+  const location = useLocation();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 500); // Simulate loading time
+    return () => clearTimeout(timer);
+  }, [location]);
 
   return (
     <div className={`app ${settings.theme}`}>
-      <Routes>
+      {loading && <LoadingBar />}
+      <Routes location={location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/timer" element={<TimerPage />} />
         <Route path="/settings" element={<SettingsPanel />} />
