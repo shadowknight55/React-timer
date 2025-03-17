@@ -26,7 +26,7 @@ const useTimer = (initialTime) => {
         setTime((prevTime) => prevTime - 1);
       }, 1000);
     } else if (time === 0) {
-      setIsRunning(false);
+      setIsRunning(false); 
       memoizedIncrementStreak();//(AI)
     }
     return () => clearInterval(timer);

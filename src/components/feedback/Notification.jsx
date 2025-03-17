@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNotification } from '../../context/NotificationContext';
+import notificationSound from '../../audio/animal_crossing.mp3'; // Ensure the path is correct
 
 /**
  * Notification component to display a single notification.
@@ -8,6 +9,13 @@ import { useNotification } from '../../context/NotificationContext';
  */
 const Notification = ({ message, id }) => {
   const { removeNotification } = useNotification();
+
+  useEffect(() => {
+    const audio = new Audio(notificationSound);
+    audio.play().catch(error => {
+      console.error('Error playing audio:', error);
+    });
+  }, []);
 
   return (
     <div className="notification">
