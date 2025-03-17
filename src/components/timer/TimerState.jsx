@@ -74,7 +74,7 @@ const TimerState = ({ initialTime }) => {
       if (notification.message === 'Session over, updating streak') {
         const timer = setTimeout(() => {
           removeNotification(notification.id);
-        }, 3000); // Remove notification after 3 seconds
+        }, 5000); // Remove notification after 5 seconds
 
         return () => clearTimeout(timer);
       }
