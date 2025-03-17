@@ -68,6 +68,19 @@ const TimerState = ({ initialTime }) => {
     removeNotification(id);
   };
 
+  // Effect to automatically remove the notification after 3 seconds for specific message
+  useEffect(() => {
+    notifications.forEach(notification => {
+      if (notification.message === 'Session over, updating streak') {
+        const timer = setTimeout(() => {
+          removeNotification(notification.id);
+        }, 3000); // Remove notification after 3 seconds
+
+        return () => clearTimeout(timer);
+      }
+    });
+  }, [notifications, removeNotification]);
+
   return (
     <div>
       <TimerDisplay hours={hours} minutes={minutes} seconds={seconds} />

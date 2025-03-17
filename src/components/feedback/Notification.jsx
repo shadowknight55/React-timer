@@ -15,7 +15,7 @@ const Notification = ({ message, id }) => {
     audio.play().catch(error => {
       console.error('Error playing audio:', error);
     });
-  }, []);
+  }, [id, message, removeNotification]);
 
   return (
     <div className="notification">
