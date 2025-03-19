@@ -20,6 +20,7 @@ export const SettingsProvider = ({ children }) => {
     },
     streak: 0, // Initial streak value
     sessions: [], // Array to store session durations
+    chartType: 'line', // Default chart type
   });
 
   // Function to update a specific setting

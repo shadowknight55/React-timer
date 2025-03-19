@@ -9,7 +9,10 @@ Added home page
 Added progress page to see streak and chart
 week 4
 Add hours to timer rewards and the abilty to see them and made app look nicer
-
+week 5
+added sound to my app and fixed local storage
+week6
+added sample data and two more charts that can be switched around 
 ## Overview
 This is a focus timer that can help with work or anything when you need to focus for a set time
 
@@ -35,6 +38,9 @@ This is a focus timer that can help with work or anything when you need to focus
 ## Project Structure
 
 - `src/hooks/useTimer.js`: Custom hook to manage the timer state and logic.
+-`src/componets/charts/BarChartComponent.jsx`: Component to display bar chart data
+- `src/components/charts/LineChartComponent.jsx`: Component to display line chart data
+- `src/components/charts/PieChartComponent.jsx`: Component to display pie chart data
 - `src/components/timer/TimerState.jsx`: Component to manage and display the timer state.
 - `src/components/timer/TimerControls.jsx`: Component to manage timer controls (start, stop, reset).
 - `src/components/timer/TimerDisplay.jsx`: Component to display the remaining time.
@@ -48,18 +54,18 @@ This is a focus timer that can help with work or anything when you need to focus
 - `src/context/NotificationContext.jsx`: Context for managing notifications and rewards.
 - `src/pages/HomePage.jsx`: Component for the home page.
 - `src/pages/ProgressPage.jsx`: Component for the progress page.
+- `src/pages/Timer.jsx`: Component for the timer
 - `src/App.jsx`: Main application component.
 
 ## Dependencies List
 - React
 - React DOM
 - React Router DOM
-- @mui/material-mui
 - @emotion/react
 - @emotion/styled
 - styled-components
 - tailwindcss
-- @mui/x-charts
+- Recharts
 
 ## Usage Guidelines
 1. **Set the Timer:**

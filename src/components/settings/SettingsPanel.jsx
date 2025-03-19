@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { SettingsContext } from "../../context/SettingsContext";
+import { ButtonGroup, Button } from '@mui/material';
 import "./SettingsPanel.css";
 
 /**
@@ -46,6 +47,10 @@ export default function SettingsPanel() {
     updateSetting("timerPresets", { focusTime: totalMinutes });
   }
 
+  const handleChartTypeChange = (type) => {
+    updateSetting('chartType', type);
+  };
+
   return (
     <div className={`settings-panel ${settings.theme}`}>
       <h2>Settings</h2>
@@ -91,6 +96,29 @@ export default function SettingsPanel() {
         <input type="number" name="minutes" value={localPresets.minutes} onChange={handlePresetChange} />
       </label>
       <button onClick={savePresets}>Save Timer Presets</button>
+
+      {/* Chart Type Selector */}
+      <h3>Chart Type</h3>
+      <ButtonGroup variant="outlined" aria-label="chart type selection">
+        <Button
+          onClick={() => handleChartTypeChange('line')}
+          variant={settings.chartType === 'line' ? 'contained' : 'outlined'}
+        >
+          Line
+        </Button>
+        <Button
+          onClick={() => handleChartTypeChange('bar')}
+          variant={settings.chartType === 'bar' ? 'contained' : 'outlined'}
+        >
+          Bar
+        </Button>
+        <Button
+          onClick={() => handleChartTypeChange('pie')}
+          variant={settings.chartType === 'pie' ? 'contained' : 'outlined'}
+        >
+          Pie
+        </Button>
+      </ButtonGroup>
     </div>
   );
 }
