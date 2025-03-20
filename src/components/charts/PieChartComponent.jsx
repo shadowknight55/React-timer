@@ -17,25 +17,25 @@ const PieChartComponent = ({ series, title }) => {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-      <PieChart width={400} height={400}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
+      <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>{title}</h3>
+      <PieChart width={500} height={500}>
         <Pie
           data={combinedData}
           dataKey="value"
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={150} // Adjusted radius for better spacing
+          outerRadius={180} // Increased radius for better visibility
           fill="#8884d8"
-          label
         >
           {combinedData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
         </Pie>
         <Tooltip />
+    
       </PieChart>
-      <Legend layout="vertical" align="right" verticalAlign="middle" />
     </div>
   );
 };
