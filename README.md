@@ -14,8 +14,11 @@ added sound to my app and fixed local storage
 week6
 added sample data and two more charts that can be switched around 
 ## Overview
-This is a focus timer that can help with work or anything when you need to focus for a set time
-
+This is a simple timmer app made with react and vite it was made to help people fouces and a few of its features include
+Streaks
+streak history
+a way to earn rewards and view ones you have not gotten
+a chat to show your progress in 3 different ways
 ## Setup Instructions
 1. **Clone the repository:**
    ```bash
