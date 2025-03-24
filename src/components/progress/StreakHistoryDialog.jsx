@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, List, ListItem, ListItemText } from '@mui/material';
+import './StreakHistoryDialog.css'; // Import CSS for fade-in effect
 
 /**
  * StreakHistoryDialog component to display historical streaks in a dialog.
@@ -9,7 +10,13 @@ import { Dialog, DialogTitle, DialogContent, List, ListItem, ListItemText } from
  */
 const StreakHistoryDialog = ({ open, onClose, historicalStreaks = [] }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      classes={{ paper: 'fade-in' }} // Apply fade-in class to the dialog
+    >
       <DialogTitle>Streak History</DialogTitle>
       <DialogContent>
         <List>
