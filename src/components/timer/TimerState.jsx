@@ -12,7 +12,7 @@ import { useNotification } from '../../context/NotificationContext';
  * @param initialTime - The initial time in minutes.
  */
 const TimerState = ({ initialTime }) => {
-  const { settings, updateSetting } = useSettings();
+  const { settings, updateSetting, addSession } = useSettings();
   const { incrementStreak, checkSessionDurationRewards, checkDailyUsageRewards } = useNotification();
   const {
     customTime,
@@ -53,8 +53,9 @@ const TimerState = ({ initialTime }) => {
       addNotification('Session over, updating streak');
       incrementStreak();
       setHasNotified(true);
+      addSession(initialTime * 60); // Add the session when the timer hits 0
     }
-  }, [time, addNotification, hasNotified, incrementStreak]);
+  }, [time, addNotification, hasNotified, incrementStreak, addSession, initialTime]);
 
   // Effect to reset notification state when time is greater than 0
   useEffect(() => {
