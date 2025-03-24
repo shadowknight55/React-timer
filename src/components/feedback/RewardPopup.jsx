@@ -10,16 +10,16 @@ import './RewardPopup.css'; // Import CSS for fade-in effect
 const RewardPopup = ({ rewards, onClose }) => {
   return (
     <Box
-      className="fade-in" // Apply fade-in class
+      className="fade-in reward-popup" // Apply fade-in and reward-popup classes
       sx={{
         position: 'fixed',
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translate(-50%, -50%)', // Ensure it always starts in the center
         backgroundColor: 'white',
         padding: 3,
         boxShadow: 3,
-        zIndex: 1000,
+        zIndex: 1000, // Ensure it appears above other elements
       }}
     >
       <Typography variant="h6" gutterBottom>

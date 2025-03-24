@@ -1,9 +1,13 @@
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
+}
+
+.reward-popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* Ensure it always starts in the center */
+  z-index: 1000; /* Ensure it appears above other elements */
 }
 
 @keyframes fadeIn {

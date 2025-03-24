@@ -1,19 +1,14 @@
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Ensure it always starts in the center */
-  z-index: 1000; /* Ensure it appears above other elements */
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9); /* Keep it centered while scaling */
+    transform: scale(0.9); /* Scale effect only */
   }
   to {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1); /* Keep it centered after scaling */
+    transform: scale(1); /* End with normal size */
   }
 }

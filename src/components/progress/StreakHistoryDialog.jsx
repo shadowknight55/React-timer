@@ -15,7 +15,15 @@ const StreakHistoryDialog = ({ open, onClose, historicalStreaks = [] }) => {
       onClose={onClose}
       maxWidth="sm"
       fullWidth
-      classes={{ paper: 'fade-in' }} // Apply fade-in class to the dialog
+      PaperProps={{
+        sx: {
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)', // Ensure it always starts in the center
+          zIndex: 1000, // Ensure it appears above other elements
+        },
+      }}
     >
       <DialogTitle>Streak History</DialogTitle>
       <DialogContent>
