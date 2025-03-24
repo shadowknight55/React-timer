@@ -39,6 +39,16 @@ const ProgressPage = () => {
         Track your progress here.
       </Typography>
       <Grid container spacing={2} justifyContent="center" sx={{ flexGrow: 1 }}>
+        {/* Streak History Section */}
+        <Grid item xs={12}>
+          <Paper sx={{ p: 1.5, textAlign: 'center', minHeight: 100 }}>
+            <Typography variant="h6" gutterBottom>
+              Streak History
+            </Typography>
+            <button onClick={() => setShowStreakHistory(true)}>View Streak History</button>
+          </Paper>
+        </Grid>
+
         {/* Current Streak Section */}
         <Grid item xs={12} md={4}>
           <Paper sx={{ p: 1.5, textAlign: 'center', minHeight: 100 }}>
@@ -58,16 +68,6 @@ const ProgressPage = () => {
               Timer Sessions
             </Typography>
             <ChartRenderer chartType={settings.chartType} sessionData={sessionData} />
-          </Paper>
-        </Grid>
-
-        {/* Streak History Section */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 1.5, textAlign: 'center', minHeight: 100 }}>
-            <Typography variant="h6" gutterBottom>
-              Streak History
-            </Typography>
-            <button onClick={() => setShowStreakHistory(true)}>View Streak History</button>
           </Paper>
         </Grid>
       </Grid>

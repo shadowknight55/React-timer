@@ -119,6 +119,18 @@ export default function SettingsPanel() {
           Pie
         </Button>
       </ButtonGroup>
+
+      {/* Clear Local Storage */}
+      <h3>Clear Data Storage</h3>
+      <button
+        onClick={() => {
+          localStorage.clear();
+          window.location.reload(); // Reload the app to reset settings
+        }}
+        style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '5px' }}
+      >
+        Clear Data
+      </button>
     </div>
   );
 }
