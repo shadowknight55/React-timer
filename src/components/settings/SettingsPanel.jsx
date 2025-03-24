@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import { SettingsContext } from "../../context/SettingsContext";
-import { ButtonGroup, Button } from '@mui/material';
 import "./SettingsPanel.css";
 
 /**
@@ -52,85 +51,106 @@ export default function SettingsPanel() {
   };
 
   return (
-    <div className={`settings-panel ${settings.theme}`}>
-      <h2>Settings</h2>
+    <div className="settings-page">
+      <h2 className="settings-title">Settings</h2>
 
-      {/* Theme Selector */}
-      <label>
-        Theme:
-        <select value={settings.theme} onChange={(e) => updateSetting("theme", e.target.value)}>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="blue">Blue</option>
-        </select>
-      </label>
 
       {/* Notification Toggle */}
-      <label>
-        Notifications:
-        <input
-          type="checkbox"
-          checked={settings.notifications}
-          onChange={() => updateSetting("notifications", !settings.notifications)}
-        />
-      </label>
+      <div className="settings-section">
+        <h3>Notifications</h3>
+        <label className="settings-toggle">
+          <span>Enable Notifications</span>
+          <div
+            className={`toggle-switch ${settings.notifications ? 'active' : ''}`}
+            onClick={() => updateSetting("notifications", !settings.notifications)}
+          >
+            <div className="toggle-knob"></div>
+          </div>
+        </label>
+      </div>
 
       {/* Sound Toggle */}
-      <label>
-        App Sounds:
-        <input
-          type="checkbox"
-          checked={settings.sound}
-          onChange={() => updateSetting("sound", !settings.sound)}
-        />
-      </label>
+      <div className="settings-section">
+        <h3>App Sounds</h3>
+        <label className="settings-toggle">
+          <span>Enable Sounds</span>
+          <div
+            className={`toggle-switch ${settings.sound ? 'active' : ''}`}
+            onClick={() => updateSetting("sound", !settings.sound)}
+          >
+            <div className="toggle-knob"></div>
+          </div>
+        </label>
+      </div>
 
       {/* Timer Presets */}
-      <h3>Timer Presets</h3>
-      <label>
-        Hours:
-        <input type="number" name="hours" value={localPresets.hours} onChange={handlePresetChange} />
-      </label>
-      <label>
-        Minutes:
-        <input type="number" name="minutes" value={localPresets.minutes} onChange={handlePresetChange} />
-      </label>
-      <button onClick={savePresets}>Save Timer Presets</button>
+      <div className="settings-section">
+        <h3>Timer Presets</h3>
+        <div className="settings-timer-inputs">
+          <label>
+            Hours:
+            <input
+              type="number"
+              name="hours"
+              value={localPresets.hours}
+              onChange={handlePresetChange}
+              className="settings-input"
+            />
+          </label>
+          <label>
+            Minutes:
+            <input
+              type="number"
+              name="minutes"
+              value={localPresets.minutes}
+              onChange={handlePresetChange}
+              className="settings-input"
+            />
+          </label>
+        </div>
+        <button className="settings-button" onClick={savePresets}>
+          Save Timer Presets
+        </button>
+      </div>
 
       {/* Chart Type Selector */}
-      <h3>Chart Type</h3>
-      <ButtonGroup variant="outlined" aria-label="chart type selection">
-        <Button
-          onClick={() => handleChartTypeChange('line')}
-          variant={settings.chartType === 'line' ? 'contained' : 'outlined'}
-        >
-          Line
-        </Button>
-        <Button
-          onClick={() => handleChartTypeChange('bar')}
-          variant={settings.chartType === 'bar' ? 'contained' : 'outlined'}
-        >
-          Bar
-        </Button>
-        <Button
-          onClick={() => handleChartTypeChange('pie')}
-          variant={settings.chartType === 'pie' ? 'contained' : 'outlined'}
-        >
-          Pie
-        </Button>
-      </ButtonGroup>
+      <div className="settings-section">
+        <h3>Chart Type</h3>
+        <div className="settings-chart-buttons">
+          <button
+            className={`settings-button ${settings.chartType === 'line' ? 'active' : ''}`}
+            onClick={() => handleChartTypeChange('line')}
+          >
+            Line
+          </button>
+          <button
+            className={`settings-button ${settings.chartType === 'bar' ? 'active' : ''}`}
+            onClick={() => handleChartTypeChange('bar')}
+          >
+            Bar
+          </button>
+          <button
+            className={`settings-button ${settings.chartType === 'pie' ? 'active' : ''}`}
+            onClick={() => handleChartTypeChange('pie')}
+          >
+            Pie
+          </button>
+        </div>
+      </div>
 
       {/* Clear Local Storage */}
-      <h3>Clear Data Storage</h3>
-      <button
-        onClick={() => {
-          localStorage.clear();
-          window.location.reload(); // Reload the app to reset settings
-        }}
-        style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '5px' }}
-      >
-        Clear Data
-      </button>
+      <div className="settings-section">
+        <h3>Clear Data Storage</h3>
+        <button
+          className="settings-button danger"
+          onClick={() => {
+            localStorage.clear();
+            window.location.reload(); // Reload the app to reset settings
+          }}
+        >
+          Clear Data
+        </button>
+      </div>
     </div>
   );
 }

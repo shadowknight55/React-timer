@@ -23,10 +23,10 @@ const ProgressPage = () => {
   return (
     <Box
       sx={{
-        p: 2,
-        maxWidth: 900,
+        width: '100%', // Full width
+        height: '100vh', // Full viewport height
+        padding: 2,
         margin: '0 auto',
-        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',

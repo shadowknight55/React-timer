@@ -5,7 +5,18 @@ import React from 'react';
  */
 const AboutPage = () => {
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div
+      style={{
+        width: '100%', // Full width
+        height: '100vh', // Full viewport height
+        padding: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+      }}
+    >
       <h1>About</h1>
       <p>
         Welcome to the React Timer App! This app helps you track your progress, manage your time, and achieve your goals.
