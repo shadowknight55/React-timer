@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, List, ListItem, ListItemText } from '@mui/material';
-import './StreakHistoryDialog.css'; // Import CSS for fade-in effect
 
 /**
  * StreakHistoryDialog component to display historical streaks in a dialog.
