@@ -34,6 +34,15 @@ export const SettingsProvider = ({ children }) => {
     setSettings((prevSettings) => ({ ...prevSettings, [key]: value }));
   };
 
+  // Function to add a session when the timer completes
+  const addSession = (duration) => {
+    setSettings((prevSettings) => ({
+      ...prevSettings,
+      sessions: [...prevSettings.sessions, { duration }], // Add the new session
+      streak: prevSettings.streak + 1, // Increment the streak
+    }));
+  };
+
   // Add the current streak to historical streaks when the page is closed or refreshed
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -72,7 +81,7 @@ export const SettingsProvider = ({ children }) => {
   }, [settings.theme]);
 
   return (
-    <SettingsContext.Provider value={{ settings, updateSetting }}>
+    <SettingsContext.Provider value={{ settings, updateSetting, addSession }}>
       {children}
     </SettingsContext.Provider>
   );
