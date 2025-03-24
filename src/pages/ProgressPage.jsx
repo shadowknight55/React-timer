@@ -5,6 +5,8 @@ import { Box, Typography, Paper, Button, Grid } from '@mui/material';
 import ChartRenderer from '../components/progress/ChartRenderer';
 import StreakHistoryDialog from '../components/progress/StreakHistoryDialog';
 import RewardPopup from '../components/feedback/RewardPopup';
+import trophyImage from '../assets/trophy.png'; // Add a trophy image for earned rewards
+import placeholderImage from '../assets/image.png'; // Add a placeholder image for unearned rewards
 
 const ProgressPage = () => {
   const { settings, updateSetting } = useSettings();
@@ -78,7 +80,7 @@ const ProgressPage = () => {
               Earned Rewards
             </Typography>
             <Button variant="outlined" onClick={() => setShowEarnedRewardPopup(true)}>
-              Show Earned Rewards
+              Show All Earned Rewards
             </Button>
           </Paper>
         </Grid>
@@ -90,7 +92,7 @@ const ProgressPage = () => {
               Unearned Rewards
             </Typography>
             <Button variant="outlined" onClick={() => setShowUnearnedRewardPopup(true)}>
-              Show Unearned Rewards
+              Show All Unearned Rewards
             </Button>
           </Paper>
         </Grid>
@@ -126,8 +128,24 @@ const ProgressPage = () => {
       />
 
       {/* Reward Popups */}
-      {showEarnedRewardPopup && <RewardPopup rewards={rewards} onClose={() => setShowEarnedRewardPopup(false)} />}
-      {showUnearnedRewardPopup && <RewardPopup rewards={unearnedRewards} onClose={() => setShowUnearnedRewardPopup(false)} />}
+      {showEarnedRewardPopup && (
+        <RewardPopup
+          rewards={rewards.map(reward => ({
+            name: reward,
+            image: trophyImage,
+          }))}
+          onClose={() => setShowEarnedRewardPopup(false)}
+        />
+      )}
+      {showUnearnedRewardPopup && (
+        <RewardPopup
+          rewards={unearnedRewards.map(reward => ({
+            name: reward,
+            image: placeholderImage,
+          }))}
+          onClose={() => setShowUnearnedRewardPopup(false)}
+        />
+      )}
     </Box>
   );
 };

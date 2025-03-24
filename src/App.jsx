@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/nav/NavBar';
-import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
 import TimerPage from './pages/TimerPage';
 import SettingsPanel from './components/settings/SettingsPanel';
 import ProgressPage from './pages/ProgressPage';
@@ -51,7 +51,8 @@ const MainApp = () => {
     <div className={`app ${settings.theme}`}>
       {loading && <LoadingBar />}
       <Routes location={location}>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<TimerPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/timer" element={<TimerPage />} />
         <Route path="/settings" element={<SettingsPanel />} />
         <Route path="/progress" element={<ProgressPage />} />
