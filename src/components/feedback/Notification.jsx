@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNotification } from '../../context/NotificationContext';
+import { useSettings } from '../../context/SettingsContext';
 import notificationSound from '../../audio/animal_crossing.mp3'; // Ensure the path is correct
 
 /**
@@ -9,13 +10,16 @@ import notificationSound from '../../audio/animal_crossing.mp3'; // Ensure the p
  */
 const Notification = ({ message, id }) => {
   const { removeNotification } = useNotification();
+  const { settings } = useSettings();
 
   useEffect(() => {
-    const audio = new Audio(notificationSound);
-    audio.play().catch(error => {
-      console.error('Error playing audio:', error);
-    });
-  }, [id, message, removeNotification]);
+    if (settings.sound) {
+      const audio = new Audio(notificationSound);
+      audio.play().catch(error => {
+        console.error('Error playing audio:', error);
+      });
+    }
+  }, [id, message, settings.sound]);
 
   return (
     <div className="notification">

@@ -15,8 +15,6 @@ const TimerState = ({ initialTime }) => {
   const { settings, updateSetting, addSession } = useSettings();
   const { incrementStreak, checkSessionDurationRewards, checkDailyUsageRewards } = useNotification();
   const {
-    customTime,
-    setCustomTime,
     isRunning,
     onStart,
     onStop,
@@ -25,6 +23,10 @@ const TimerState = ({ initialTime }) => {
     minutes,
     seconds,
     time,
+    volume,
+    handleVolumeChange,
+    isMuted,
+    handleMuteToggle
   } = useTimer(settings.timerPresets.focusTime);
 
   const { notifications, addNotification, removeNotification } = useNotifications();
@@ -86,18 +88,20 @@ const TimerState = ({ initialTime }) => {
     <div>
       <TimerDisplay hours={hours} minutes={minutes} seconds={seconds} />
       <TimerControls
-        customTime={customTime}
-        setCustomTime={setCustomTime}
         isRunning={isRunning}
         onStart={onStart}
         onStop={onStop}
         onReset={onReset}
+        volume={volume}
+        onVolumeChange={handleVolumeChange}
+        isMuted={isMuted}
+        onMuteToggle={handleMuteToggle}
       />
       {notifications.map((notification) => (
         <Notification
           key={notification.id}
           message={notification.message}
-          id={notification.id} // Ensure the notification ID is passed
+          id={notification.id}
           onClose={() => handleNotificationClose(notification.id)}
         />
       ))}

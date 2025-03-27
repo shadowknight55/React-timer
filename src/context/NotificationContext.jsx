@@ -65,9 +65,11 @@ export const NotificationProvider = ({ children }) => {
   // Function to add a reward
   const addReward = (reward) => {
     if (!rewards.includes(reward)) {
-      setRewards((prevRewards) => [...prevRewards, reward]);
+      const newRewards = [...rewards, reward];
+      setRewards(newRewards);
+      localStorage.setItem('rewards', JSON.stringify(newRewards));
       addNotification(`New reward: ${reward}`);
-      updateSetting('rewards', [...rewards, reward]);
+      updateSetting('rewards', newRewards);
     }
   };
 
