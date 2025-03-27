@@ -55,15 +55,37 @@ export const useTimer = ({ initialSeconds, onComplete }) => {
 
   // Handle audio playback
   useEffect(() => {
-    if (isActive && seconds > 0 && settings.sound) {
-      audioRef.current.play().catch(error => {
-        console.log('Audio playback failed:', error);
-      });
+    const audio = audioRef.current;
+    
+    if (isActive && !isPaused && seconds > 0 && settings.sound && !isMuted) {
+      // Try to play the audio
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Audio is playing
+          })
+          .catch(error => {
+            console.log('Audio playback failed:', error);
+          });
+      }
     } else {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
+      // Stop the audio when paused or timer is not active
+      if (!audio.paused) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
     }
-  }, [isActive, seconds, settings.sound]);
+
+    // Cleanup function to ensure audio is stopped when component unmounts
+    return () => {
+      if (!audio.paused) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    };
+  }, [isActive, isPaused, seconds, settings.sound, isMuted]);
 
   useEffect(() => {
     localStorage.setItem('hasStarted', JSON.stringify(hasStarted));
