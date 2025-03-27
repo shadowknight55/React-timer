@@ -5,34 +5,42 @@ const SettingsContext = createContext();
 
 // Custom hook to use the settings context
 export const useSettings = () => {
-  return useContext(SettingsContext);
+  const context = useContext(SettingsContext);
+  if (!context) {
+    throw new Error('useSettings must be used within a SettingsProvider');
+  }
+  return context;
 };
 
 // SettingsProvider component to provide settings context to its children
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState(() => {
-    // Load settings from localStorage or use default values
     const savedSettings = JSON.parse(localStorage.getItem('settings'));
     return savedSettings || {
-      timerDuration: 25, // Default timer duration in minutes
-      theme: 'light', // Default theme
-      notifications: true, // Default notifications setting
-      sound: true, // Default sound setting
+      timerDuration: 25,
+      theme: 'light',
+      notifications: true,
+      sound: true,
       timerPresets: {
         focusTime: 25,
       },
-      streak: 0, // Initial streak value
-      streakStartDate: null, // Start date of the current streak
-      sessions: [], // Array to store session durations
-      chartType: 'line', // Default chart type
-      historicalStreaks: [], // Ensure historicalStreaks is initialized as an empty array
-      rewards: [], // Initialize rewards array
+      streak: 0,
+      streakStartDate: null,
+      sessions: [], // Empty array for actual session data
+      chartType: 'line',
+      chartTimePeriod: 'days',
+      historicalStreaks: [], // Empty array for actual streak history
+      rewards: [], // Empty array for actual rewards
     };
   });
 
   // Function to update a specific setting
   const updateSetting = useCallback((key, value) => {
-    setSettings(prevSettings => ({ ...prevSettings, [key]: value }));
+    setSettings(prev => {
+      const newSettings = { ...prev, [key]: value };
+      localStorage.setItem('settings', JSON.stringify(newSettings));
+      return newSettings;
+    });
   }, []);
 
   // Function to add a session when the timer completes

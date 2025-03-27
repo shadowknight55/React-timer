@@ -11,7 +11,11 @@ import {
   Button,
   Stack,
   ButtonGroup,
-  Divider
+  Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
@@ -154,26 +158,38 @@ export default function SettingsPanel() {
             <ShowChartIcon />
             Chart Type
           </Typography>
-          <ButtonGroup variant="outlined" size="small">
-            <Button 
-              onClick={() => handleChartTypeChange('line')}
-              variant={settings.chartType === 'line' ? 'contained' : 'outlined'}
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <InputLabel>Chart Type</InputLabel>
+            <Select
+              value={settings.chartType}
+              label="Chart Type"
+              onChange={(e) => updateSetting('chartType', e.target.value)}
             >
-              Line
-            </Button>
-            <Button 
-              onClick={() => handleChartTypeChange('bar')}
-              variant={settings.chartType === 'bar' ? 'contained' : 'outlined'}
+              <MenuItem value="line">Line Chart</MenuItem>
+              <MenuItem value="bar">Bar Chart</MenuItem>
+              <MenuItem value="pie">Pie Chart</MenuItem>
+            </Select>
+          </FormControl>
+        </Paper>
+
+        {/* Time Period */}
+        <Paper elevation={0} variant="outlined" sx={{ p: 2 }}>
+          <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <TimerIcon />
+            Time Period
+          </Typography>
+          <FormControl fullWidth>
+            <InputLabel>Time Period</InputLabel>
+            <Select
+              value={settings.chartTimePeriod}
+              label="Time Period"
+              onChange={(e) => updateSetting('chartTimePeriod', e.target.value)}
             >
-              Bar
-            </Button>
-            <Button 
-              onClick={() => handleChartTypeChange('pie')}
-              variant={settings.chartType === 'pie' ? 'contained' : 'outlined'}
-            >
-              Pie
-            </Button>
-          </ButtonGroup>
+              <MenuItem value="days">Daily</MenuItem>
+              <MenuItem value="months">Monthly</MenuItem>
+              <MenuItem value="years">Yearly</MenuItem>
+            </Select>
+          </FormControl>
         </Paper>
 
         {/* Clear Data */}

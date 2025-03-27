@@ -11,6 +11,7 @@ import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { NotificationProvider } from './context/NotificationContext';
 import NotificationSystem from './components/feedback/NotificationSystem';
 import LoadingBar from './components/common/LoadingBar';
+import TimerState from './components/timer/TimerState';
 
 /**
  * App component to provide the main structure of the application.
@@ -20,7 +21,7 @@ const App = () => {
     <SettingsProvider>
       <NotificationProvider>
         <Router>
-          <div>
+          <div className="App">
             <NavBar />
             <ErrorBoundary>
               <MainApp />

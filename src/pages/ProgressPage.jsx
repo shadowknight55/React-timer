@@ -17,25 +17,80 @@ const ProgressPage = () => {
   const [showStreakHistory, setShowStreakHistory] = useState(false);
   const theme = useTheme();
 
+  const groupSessionsByPeriod = (sessions, period) => {
+    console.log('Grouping sessions:', sessions); // Debug log
+    const groupedData = {};
+    
+    sessions.forEach(session => {
+      const date = new Date(session.timestamp);
+      let key;
+      
+      switch (period) {
+        case 'months':
+          key = `${date.getFullYear()}-${date.getMonth() + 1}`;
+          break;
+        case 'years':
+          key = date.getFullYear().toString();
+          break;
+        default: // days
+          key = date.toISOString().split('T')[0];
+      }
+      
+      if (!groupedData[key]) {
+        groupedData[key] = {
+          totalDuration: 0,
+          count: 0
+        };
+      }
+      
+      groupedData[key].totalDuration += session.duration;
+      groupedData[key].count += 1;
+    });
+    
+    console.log('Grouped data:', groupedData); // Debug log
+    return groupedData;
+  };
+
+  const formatPeriodLabel = (key, period) => {
+    switch (period) {
+      case 'months':
+        const [year, month] = key.split('-');
+        return new Date(year, month - 1).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+      case 'years':
+        return key;
+      default: // days
+        return new Date(key).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+  };
+
   useEffect(() => {
-    // Filter out any invalid sessions and sort by timestamp
-    const validSessions = settings.sessions
-      .filter(session => 
-        session && 
-        typeof session.duration === 'number' && 
-        !isNaN(session.duration) &&
-        session.timestamp
-      )
-      .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    console.log('Current sessions:', settings.sessions); // Debug log
+    
+    if (settings.sessions && settings.sessions.length > 0) {
+      const validSessions = settings.sessions
+        .filter(session => 
+          session && 
+          typeof session.duration === 'number' && 
+          !isNaN(session.duration) &&
+          session.timestamp
+        );
 
-    // Create chart data
-    const data = validSessions.map((session, index) => ({
-      x: `Session ${index + 1}`,
-      y: Math.round(session.duration / 60), // Convert seconds to minutes
-    }));
+      console.log('Valid sessions:', validSessions); // Debug log
 
-    setSessionData(data);
-  }, [settings.sessions]);
+      const groupedSessions = groupSessionsByPeriod(validSessions, settings.chartTimePeriod);
+      
+      const data = Object.entries(groupedSessions).map(([key, value]) => ({
+        x: key,
+        y: Math.round(value.totalDuration / 60), // Convert seconds to minutes
+        sessions: value.count
+      }));
+
+      console.log('Chart data:', data); // Debug log
+      setSessionData(data);
+    } else {
+      setSessionData([]);
+    }
+  }, [settings.sessions, settings.chartTimePeriod]);
 
   const StatCard = ({ title, value, icon, subtitle }) => (
     <Card 
@@ -169,7 +224,26 @@ const ProgressPage = () => {
           Session History
         </Typography>
         <Box sx={{ flexGrow: 1, minHeight: 0 }}>
-          <ChartRenderer chartType={settings.chartType} sessionData={sessionData} />
+          {sessionData.length > 0 ? (
+            <Box sx={{ height: 'calc(100% - 40px)' }}>
+              <ChartRenderer 
+                data={sessionData} 
+                chartType={settings.chartType || 'line'} 
+              />
+            </Box>
+          ) : (
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              height: 400,
+              color: theme.palette.text.secondary 
+            }}>
+              <Typography>
+                Complete your first session to see your progress!
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Paper>
 

@@ -5,7 +5,7 @@ import { useSettings } from '../context/SettingsContext';
 import tickingSound from '../audio/wall-clock-ticking-308746.mp3';
 
 export const useTimer = ({ initialSeconds, onComplete }) => {
-  const { addReward, incrementStreak, incrementStartStopCount } = useNotification();
+  const { addReward, incrementStreak, incrementStartStopCount, updateSetting } = useNotification();
   const { settings } = useSettings();
   const [seconds, setSeconds] = useState(initialSeconds);
   const [isActive, setIsActive] = useState(false);
@@ -102,6 +102,18 @@ export const useTimer = ({ initialSeconds, onComplete }) => {
         setSeconds(seconds => {
           const newSeconds = seconds - 1;
           if (newSeconds === 0) {
+            // When timer completes, save the session
+            const newSession = {
+              duration: initialSeconds,
+              timestamp: new Date().toISOString(),
+              completed: true
+            };
+            
+            // Add the session to settings
+            if (settings && updateSetting) {
+              updateSetting('sessions', [...(settings.sessions || []), newSession]);
+            }
+            
             if (onComplete) {
               onComplete();
             }
@@ -119,7 +131,7 @@ export const useTimer = ({ initialSeconds, onComplete }) => {
         clearInterval(interval);
       }
     };
-  }, [isActive, isPaused, seconds, onComplete, memoizedIncrementStreak]);
+  }, [isActive, isPaused, seconds, onComplete, memoizedIncrementStreak, initialSeconds, settings, updateSetting]);
 
   const start = useCallback(() => {
     setIsActive(true);

@@ -33,17 +33,13 @@ const TimerPage = () => {
   }, [rewards, addReward]);
 
   return (
-    <Container maxWidth="sm" sx={{ py: 2 }}>
-      <Typography 
-        variant="h5" 
-        align="center" 
-        gutterBottom 
-        sx={{ fontWeight: 'medium' }}
-      >
-        Focus Timer
-      </Typography>
-      
-      <Box sx={{ mb: 3 }}>
+    <Container maxWidth="sm">
+      <Box sx={{ 
+        py: 4,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
         <TimerState />
       </Box>
 
