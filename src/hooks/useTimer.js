@@ -4,11 +4,12 @@ import { useLocation } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
 import tickingSound from '../audio/wall-clock-ticking-308746.mp3';
 
-const useTimer = (initialTime) => {
+export const useTimer = ({ initialSeconds, onComplete }) => {
   const { addReward, incrementStreak, incrementStartStopCount } = useNotification();
   const { settings } = useSettings();
-  const [time, setTime] = useState(initialTime * 60);
-  const [isRunning, setIsRunning] = useState(false);
+  const [seconds, setSeconds] = useState(initialSeconds);
+  const [isActive, setIsActive] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [volume, setVolume] = useState(() => {
     const savedVolume = localStorage.getItem('timerVolume');
     return savedVolume ? parseFloat(savedVolume) : 0.5;
@@ -23,6 +24,18 @@ const useTimer = (initialTime) => {
   });
   const location = useLocation();
   const audioRef = useRef(new Audio(tickingSound));
+  
+  // Store initial seconds in a ref to persist across renders
+  const initialSecondsRef = useRef(initialSeconds);
+  
+  useEffect(() => {
+    // Update initial seconds ref when prop changes
+    initialSecondsRef.current = initialSeconds;
+    // Reset timer state when initial seconds changes
+    if (!isActive && !isPaused) {
+      setSeconds(initialSeconds);
+    }
+  }, [initialSeconds, isActive, isPaused]);
 
   // Configure audio
   useEffect(() => {
@@ -42,7 +55,7 @@ const useTimer = (initialTime) => {
 
   // Handle audio playback
   useEffect(() => {
-    if (isRunning && time > 0 && settings.sound) {
+    if (isActive && seconds > 0 && settings.sound) {
       audioRef.current.play().catch(error => {
         console.log('Audio playback failed:', error);
       });
@@ -50,47 +63,65 @@ const useTimer = (initialTime) => {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
-  }, [isRunning, time, settings.sound]);
+  }, [isActive, seconds, settings.sound]);
 
   useEffect(() => {
     localStorage.setItem('hasStarted', JSON.stringify(hasStarted));
   }, [hasStarted]);
 
-  const memoizedIncrementStreak = useCallback(incrementStreak, []);
+  const memoizedIncrementStreak = useCallback(incrementStreak, [incrementStreak]);
+  const memoizedIncrementStartStop = useCallback(incrementStartStopCount, [incrementStartStopCount]);
 
   useEffect(() => {
-    let timer;
-    if (isRunning && time > 0) {
-      timer = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
+    let interval = null;
+    
+    if (isActive && !isPaused && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds(seconds => {
+          const newSeconds = seconds - 1;
+          if (newSeconds === 0) {
+            if (onComplete) {
+              onComplete();
+            }
+            memoizedIncrementStreak();
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+          }
+          return newSeconds;
+        });
       }, 1000);
-    } else if (time === 0) {
-      setIsRunning(false);
-      memoizedIncrementStreak();
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
     }
-    return () => clearInterval(timer);
-  }, [isRunning, time, memoizedIncrementStreak]);
+    
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [isActive, isPaused, seconds, onComplete, memoizedIncrementStreak]);
 
-  const onStart = useCallback(() => {
-    setIsRunning(true);
+  const start = useCallback(() => {
+    setIsActive(true);
+    setIsPaused(false);
     if (!hasStarted) {
       setHasStarted(true);
       addReward('First Timer: Started the timer for the first time!');
     }
-    incrementStartStopCount();
-  }, [hasStarted, addReward, incrementStartStopCount]);
+    memoizedIncrementStartStop();
+  }, [hasStarted, addReward, memoizedIncrementStartStop]);
 
-  const onStop = useCallback(() => {
-    setIsRunning(false);
-    incrementStartStopCount();
-  }, [incrementStartStopCount]);
+  const pause = useCallback(() => {
+    setIsPaused(true);
+  }, []);
 
-  const onReset = useCallback(() => {
-    setIsRunning(false);
-    setTime(initialTime * 60);
-  }, [initialTime]);
+  const resume = useCallback(() => {
+    setIsPaused(false);
+  }, []);
+
+  const reset = useCallback(() => {
+    setSeconds(initialSecondsRef.current);
+    setIsActive(false);
+    setIsPaused(false);
+  }, []);
 
   const handleVolumeChange = (event, newValue) => {
     setVolume(newValue);
@@ -106,19 +137,22 @@ const useTimer = (initialTime) => {
     }
   };
 
-  const hours = Math.floor(time / 3600);
-  const minutes = Math.floor((time % 3600) / 60);
-  const seconds = time % 60;
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
 
   return {
-    isRunning,
-    onStart,
-    onStop,
-    onReset,
+    seconds,
+    isActive,
+    isPaused,
+    start,
+    pause,
+    resume,
+    reset,
+    initialSeconds: initialSecondsRef.current,
     hours,
     minutes,
-    seconds,
-    time,
+    remainingSeconds,
     volume,
     handleVolumeChange,
     isMuted,

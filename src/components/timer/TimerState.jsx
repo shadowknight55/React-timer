@@ -1,111 +1,154 @@
-import React, { useEffect, useState } from 'react';
-import useTimer from '../../hooks/useTimer';
-import TimerDisplay from './TimerDisplay';
-import TimerControls from './TimerControls';
-import useNotifications from '../../hooks/useNotifications';
-import Notification from '../feedback/Notification';
+import React, { useEffect, useCallback } from 'react';
+import { useTimer } from '../../hooks/useTimer';
 import { useSettings } from '../../context/SettingsContext';
 import { useNotification } from '../../context/NotificationContext';
+import { Box, Typography, IconButton, Paper, Stack, Divider } from '@mui/material';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+
+const TimeUnit = ({ value, label }) => (
+  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Typography variant="h3" sx={{ fontFamily: 'monospace', fontWeight: 'light', lineHeight: 1 }}>
+      {value}
+    </Typography>
+    <Typography variant="caption" sx={{ opacity: 0.7, mt: 0.5 }}>
+      {label}
+    </Typography>
+  </Box>
+);
 
 /**
  * TimerState component to manage and display the timer state.
  * @param initialTime - The initial time in minutes.
  */
-const TimerState = ({ initialTime }) => {
-  const { settings, updateSetting, addSession } = useSettings();
-  const { incrementStreak, checkSessionDurationRewards, checkDailyUsageRewards } = useNotification();
+const TimerState = () => {
+  const { settings, updateSetting } = useSettings();
+  const { addNotification } = useNotification();
+  
+  // Calculate total seconds from timer presets
+  const totalSeconds = settings.timerPresets?.focusTime 
+    ? settings.timerPresets.focusTime * 60 // Convert minutes to seconds
+    : settings.timerDuration * 60; // Fallback to timerDuration if presets not available
+  
+  const onComplete = useCallback(() => {
+    const currentTime = new Date().toISOString();
+    
+    // Add the completed session with actual duration and timestamp
+    const newSession = {
+      duration: totalSeconds, // Use the actual duration in seconds
+      timestamp: currentTime
+    };
+    
+    // Update settings in the next tick to prevent render issues
+    Promise.resolve().then(() => {
+      // Update sessions and streak
+      updateSetting('sessions', [...settings.sessions, newSession]);
+      updateSetting('streak', settings.streak + 1);
+      updateSetting('lastSessionDate', currentTime);
+    });
+
+    // Show completion notification
+    addNotification('Session completed! 🎉');
+    
+    // Auto-reset after 1 second to allow notification to show
+    setTimeout(() => {
+      onReset();
+    }, 1000);
+  }, [settings.sessions, settings.streak, totalSeconds, updateSetting, addNotification]);
+
   const {
-    isRunning,
-    onStart,
-    onStop,
-    onReset,
+    seconds,
+    isActive,
+    isPaused,
+    start,
+    pause,
+    resume,
+    reset: onReset,
     hours,
     minutes,
-    seconds,
-    time,
-    volume,
-    handleVolumeChange,
-    isMuted,
-    handleMuteToggle
-  } = useTimer(settings.timerPresets.focusTime);
+    remainingSeconds
+  } = useTimer({
+    initialSeconds: totalSeconds,
+    onComplete
+  });
 
-  const { notifications, addNotification, removeNotification } = useNotifications();
-  const [hasNotified, setHasNotified] = useState(false);
-  const [sessionStartTime, setSessionStartTime] = useState(null);
-
-  // Effect to handle session start and stop
+  // Update timer duration when settings change
   useEffect(() => {
-    if (isRunning && sessionStartTime === null) {
-      setSessionStartTime(Date.now());
-    } else if (!isRunning && sessionStartTime !== null) {
-      const sessionDuration = (Date.now() - sessionStartTime) / 1000; // Duration in seconds
-      const newSession = { duration: sessionDuration, timestamp: new Date() };
-      const updatedSessions = [...settings.sessions, newSession];
-      updateSetting('sessions', updatedSessions);
-      checkSessionDurationRewards(sessionDuration);
-      checkDailyUsageRewards();
-      setSessionStartTime(null);
+    if (!isActive && !isPaused) {
+      onReset();
     }
-  }, [isRunning, sessionStartTime, settings.sessions, updateSetting, checkSessionDurationRewards, checkDailyUsageRewards]);
+  }, [settings.timerPresets, settings.timerDuration, isActive, isPaused, onReset]);
 
-  // Effect to handle timer end and notification
-  useEffect(() => {
-    if (time === 0 && !hasNotified) {
-      console.log('Timer ended, showing notification');
-      addNotification('Session over, updating streak');
-      incrementStreak();
-      setHasNotified(true);
-      addSession(initialTime * 60); // Add the session when the timer hits 0
-    }
-  }, [time, addNotification, hasNotified, incrementStreak, addSession, initialTime]);
-
-  // Effect to reset notification state when time is greater than 0
-  useEffect(() => {
-    if (time > 0) {
-      setHasNotified(false);
-    }
-  }, [time]);
-
-  // Function to handle notification close
-  const handleNotificationClose = (id) => {
-    removeNotification(id);
+  // Format time for display
+  const timeDisplay = {
+    hours: hours.toString().padStart(2, '0'),
+    minutes: minutes.toString().padStart(2, '0'),
+    seconds: remainingSeconds.toString().padStart(2, '0')
   };
 
-  // Effect to automatically remove the notification after 3 seconds for specific message
-  useEffect(() => {
-    notifications.forEach(notification => {
-      if (notification.message === 'Session over, updating streak') {
-        const timer = setTimeout(() => {
-          removeNotification(notification.id);
-        }, 5000); // Remove notification after 5 seconds
-
-        return () => clearTimeout(timer);
-      }
-    });
-  }, [notifications, removeNotification]);
-
   return (
-    <div>
-      <TimerDisplay hours={hours} minutes={minutes} seconds={seconds} />
-      <TimerControls
-        isRunning={isRunning}
-        onStart={onStart}
-        onStop={onStop}
-        onReset={onReset}
-        volume={volume}
-        onVolumeChange={handleVolumeChange}
-        isMuted={isMuted}
-        onMuteToggle={handleMuteToggle}
-      />
-      {notifications.map((notification) => (
-        <Notification
-          key={notification.id}
-          message={notification.message}
-          id={notification.id}
-          onClose={() => handleNotificationClose(notification.id)}
-        />
-      ))}
-    </div>
+    <Paper 
+      elevation={0}
+      variant="outlined"
+      sx={{ 
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
+        maxWidth: 400,
+        mx: 'auto',
+        borderRadius: 2
+      }}
+    >
+      <Stack 
+        direction="row" 
+        spacing={2} 
+        alignItems="center"
+        divider={<Divider orientation="vertical" flexItem sx={{ mx: 1 }} />}
+      >
+        <TimeUnit value={timeDisplay.hours} label="hours" />
+        <TimeUnit value={timeDisplay.minutes} label="minutes" />
+        <TimeUnit value={timeDisplay.seconds} label="seconds" />
+      </Stack>
+      
+      <Stack direction="row" spacing={1}>
+        {!isActive && !isPaused ? (
+          <IconButton 
+            onClick={start}
+            color="primary"
+            size="large"
+          >
+            <PlayArrowIcon />
+          </IconButton>
+        ) : isPaused ? (
+          <IconButton 
+            onClick={resume}
+            color="primary"
+            size="large"
+          >
+            <PlayArrowIcon />
+          </IconButton>
+        ) : (
+          <IconButton 
+            onClick={pause}
+            color="primary"
+            size="large"
+          >
+            <PauseIcon />
+          </IconButton>
+        )}
+        
+        <IconButton 
+          onClick={onReset}
+          color="primary"
+          size="large"
+        >
+          <RestartAltIcon />
+        </IconButton>
+      </Stack>
+    </Paper>
   );
 };
 

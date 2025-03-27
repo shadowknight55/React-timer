@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNotification } from '../context/NotificationContext';
 import TimerState from '../components/timer/TimerState';
 import RewardPopup from '../components/feedback/RewardPopup';
+import { Container, Typography, Box, Button, Stack, Badge } from '@mui/material';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import LockIcon from '@mui/icons-material/Lock';
 import trophyImage from '../assets/trophy.png'; // Trophy image for earned rewards
 import placeholderImage from '../assets/image.png'; // Placeholder image for unearned rewards
 
 const TimerPage = () => {
-  const { rewards, allRewards } = useNotification();
+  const { rewards, allRewards, addReward } = useNotification();
   const [showEarnedRewardPopup, setShowEarnedRewardPopup] = useState(false);
   const [showUnearnedRewardPopup, setShowUnearnedRewardPopup] = useState(false);
 
@@ -27,27 +30,79 @@ const TimerPage = () => {
         });
       }
     }
-  }, []);
+  }, [rewards, addReward]);
 
   return (
-    <div className="timer-page" style={{ padding: '20px', maxWidth: '900px', margin: '0 auto' }}>
-      <h1>Focus Timer</h1>
-      <TimerState initialTime={25} />
+    <Container maxWidth="sm" sx={{ py: 2 }}>
+      <Typography 
+        variant="h5" 
+        align="center" 
+        gutterBottom 
+        sx={{ fontWeight: 'medium' }}
+      >
+        Focus Timer
+      </Typography>
+      
+      <Box sx={{ mb: 3 }}>
+        <TimerState />
+      </Box>
 
-      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '20px' }}>
-        <button 
+      <Stack 
+        direction="row" 
+        spacing={2} 
+        justifyContent="center"
+        sx={{ mt: 2 }}
+      >
+        <Button 
+          variant="outlined"
           onClick={() => setShowEarnedRewardPopup(true)}
-          className="reward-button"
+          startIcon={<EmojiEventsIcon />}
+          size="small"
+          color="primary"
+          sx={{ 
+            borderRadius: 2,
+            minWidth: 160,
+            justifyContent: 'flex-start'
+          }}
         >
-          Show Earned Rewards ({rewards.length})
-        </button>
-        <button 
+          <Badge 
+            badgeContent={rewards.length} 
+            color="primary"
+            sx={{ 
+              '& .MuiBadge-badge': {
+                right: -20,
+              }
+            }}
+          >
+            Earned Rewards
+          </Badge>
+        </Button>
+        
+        <Button 
+          variant="outlined"
           onClick={() => setShowUnearnedRewardPopup(true)}
-          className="reward-button"
+          startIcon={<LockIcon />}
+          size="small"
+          color="secondary"
+          sx={{ 
+            borderRadius: 2,
+            minWidth: 160,
+            justifyContent: 'flex-start'
+          }}
         >
-          Show Unearned Rewards ({unearnedRewards.length})
-        </button>
-      </div>
+          <Badge 
+            badgeContent={unearnedRewards.length} 
+            color="secondary"
+            sx={{ 
+              '& .MuiBadge-badge': {
+                right: -20,
+              }
+            }}
+          >
+            Locked Rewards
+          </Badge>
+        </Button>
+      </Stack>
 
       {/* Earned Rewards Popup */}
       {showEarnedRewardPopup && (
@@ -70,7 +125,7 @@ const TimerPage = () => {
           onClose={() => setShowUnearnedRewardPopup(false)}
         />
       )}
-    </div>
+    </Container>
   );
 };
 
