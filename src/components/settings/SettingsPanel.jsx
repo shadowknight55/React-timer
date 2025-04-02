@@ -73,27 +73,28 @@ export default function SettingsPanel() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 3 }}>
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: 'medium' }}>
+    <Container maxWidth="sm" sx={{ py: 2 }}>
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: 'medium', mb: 2 }}>
         Settings
       </Typography>
 
-      <Stack spacing={2}>
+      <Stack spacing={1}>
         {/* Notifications and Sound */}
-        <Paper elevation={0} variant="outlined" sx={{ p: 2 }}>
-          <Stack spacing={2}>
+        <Paper elevation={0} variant="outlined" sx={{ p: 1.5 }}>
+          <Stack spacing={1}>
             <FormControlLabel
               control={
                 <Switch
                   checked={settings.notifications}
                   onChange={() => updateSetting("notifications", !settings.notifications)}
                   color="primary"
+                  size="small"
                 />
               }
               label={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <NotificationsIcon />
-                  <Typography>Enable Notifications</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <NotificationsIcon fontSize="small" />
+                  <Typography variant="body2">Enable Notifications</Typography>
                 </Box>
               }
             />
@@ -103,12 +104,13 @@ export default function SettingsPanel() {
                   checked={settings.sound}
                   onChange={() => updateSetting("sound", !settings.sound)}
                   color="primary"
+                  size="small"
                 />
               }
               label={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <VolumeUpIcon />
-                  <Typography>Enable Sounds</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <VolumeUpIcon fontSize="small" />
+                  <Typography variant="body2">Enable Sounds</Typography>
                 </Box>
               }
             />
@@ -116,13 +118,13 @@ export default function SettingsPanel() {
         </Paper>
 
         {/* Timer Presets */}
-        <Paper elevation={0} variant="outlined" sx={{ p: 2 }}>
-          <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <TimerIcon />
+        <Paper elevation={0} variant="outlined" sx={{ p: 1.5 }}>
+          <Typography variant="subtitle2" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+            <TimerIcon fontSize="small" />
             Timer Duration
           </Typography>
-          <Stack spacing={2}>
-            <Stack direction="row" spacing={2}>
+          <Stack spacing={1}>
+            <Stack direction="row" spacing={1}>
               <TextField
                 label="Hours"
                 type="number"
@@ -153,12 +155,12 @@ export default function SettingsPanel() {
         </Paper>
 
         {/* Chart Type */}
-        <Paper elevation={0} variant="outlined" sx={{ p: 2 }}>
-          <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <ShowChartIcon />
+        <Paper elevation={0} variant="outlined" sx={{ p: 1.5 }}>
+          <Typography variant="subtitle2" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+            <ShowChartIcon fontSize="small" />
             Chart Type
           </Typography>
-          <FormControl fullWidth sx={{ mb: 2 }}>
+          <FormControl fullWidth size="small">
             <InputLabel>Chart Type</InputLabel>
             <Select
               value={settings.chartType}

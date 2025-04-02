@@ -1,5 +1,3 @@
-
-
 .settings-panel button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -13,7 +11,16 @@
 .settings-panel button:hover {
   background-color: #0056b3;
 }
-.settings-card {  width: 100%;  max-width: 600px;  background-color: #f9f9f9;  padding: 20px;  margin-bottom: 20px;  border-radius: 8px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  text-align: center;}
+.settings-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: none;
+  text-align: center;
+}
 .settings-page {
   width: 100%;
   max-width: 800px;

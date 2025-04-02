@@ -27,24 +27,18 @@ const allRewards = [
 export const NotificationProvider = ({ children }) => {
   const { settings, updateSetting } = useSettings();
   const [notifications, setNotifications] = useState([]);
-  const initialRewardsSet = useRef(false);
   
   const [rewards, setRewards] = useState(() => {
-    // Load rewards from localStorage or settings
+    // First check settings, then localStorage as fallback
+    if (settings.rewards && settings.rewards.length > 0) {
+      return settings.rewards;
+    }
     const savedRewards = localStorage.getItem('rewards');
     if (savedRewards) {
       return JSON.parse(savedRewards);
     }
-    return settings.rewards || [];
+    return [];
   });
-
-  // Sync rewards with settings only once on initial mount
-  useEffect(() => {
-    if (!initialRewardsSet.current && rewards.length > 0) {
-      updateSetting('rewards', rewards);
-      initialRewardsSet.current = true;
-    }
-  }, [rewards, updateSetting]);
 
   const [startStopCount, setStartStopCount] = useState(() => {
     const savedCount = localStorage.getItem('startStopCount');
@@ -82,10 +76,9 @@ export const NotificationProvider = ({ children }) => {
     if (!rewards.includes(reward)) {
       setRewards(prevRewards => {
         const newRewards = [...prevRewards, reward];
-        // Update settings in the next tick to prevent render loop
-        Promise.resolve().then(() => {
-          updateSetting('rewards', newRewards);
-        });
+        // Update both localStorage and settings at once
+        localStorage.setItem('rewards', JSON.stringify(newRewards));
+        updateSetting('rewards', newRewards);
         return newRewards;
       });
       addNotification(`New reward: ${reward}`);
