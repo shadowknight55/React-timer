@@ -155,7 +155,10 @@ const ProgressPage = () => {
         height: 'calc(100vh - 48px)', // Subtract navbar height
         py: 0.5,
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        backgroundColor: '#333',
+        color: '#fff',
+        borderRadius: 1
       }}
     >
       <Typography 

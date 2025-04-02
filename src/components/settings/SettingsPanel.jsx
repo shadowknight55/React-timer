@@ -73,7 +73,12 @@ export default function SettingsPanel() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 2 }}>
+    <Container maxWidth="sm" sx={{ 
+      py: 2,
+      backgroundColor: '#333',
+      color: '#fff',
+      borderRadius: 1
+    }}>
       <Typography variant="h5" gutterBottom sx={{ fontWeight: 'medium', mb: 2 }}>
         Settings
       </Typography>

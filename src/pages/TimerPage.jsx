@@ -33,7 +33,12 @@ const TimerPage = () => {
   }, [rewards, addReward]);
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{ 
+      backgroundColor: '#333',
+      color: '#fff',
+      borderRadius: 1,
+      py: 2
+    }}>
       <Box sx={{ 
         py: 4,
         display: 'flex',
