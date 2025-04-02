@@ -37,7 +37,8 @@ const TimerPage = () => {
       backgroundColor: '#333',
       color: '#fff',
       borderRadius: 1,
-      py: 2
+      py: 2,
+      minHeight: 'calc(100vh - 48px)' // Subtract navbar height
     }}>
       <Box sx={{ 
         py: 4,
@@ -57,13 +58,18 @@ const TimerPage = () => {
         <Button 
           variant="outlined"
           onClick={() => setShowEarnedRewardPopup(true)}
-          startIcon={<EmojiEventsIcon />}
+          startIcon={<EmojiEventsIcon sx={{ color: '#fff' }} />}
           size="small"
-          color="primary"
           sx={{ 
             borderRadius: 2,
             minWidth: 160,
-            justifyContent: 'flex-start'
+            justifyContent: 'flex-start',
+            borderColor: '#fff',
+            color: '#fff',
+            '&:hover': {
+              borderColor: '#fff',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }
           }}
         >
           <Badge 
@@ -82,13 +88,18 @@ const TimerPage = () => {
         <Button 
           variant="outlined"
           onClick={() => setShowUnearnedRewardPopup(true)}
-          startIcon={<LockIcon />}
+          startIcon={<LockIcon sx={{ color: '#fff' }} />}
           size="small"
-          color="secondary"
           sx={{ 
             borderRadius: 2,
             minWidth: 160,
-            justifyContent: 'flex-start'
+            justifyContent: 'flex-start',
+            borderColor: '#fff',
+            color: '#fff',
+            '&:hover': {
+              borderColor: '#fff',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }
           }}
         >
           <Badge 

@@ -99,7 +99,9 @@ const TimerState = () => {
         gap: 2,
         maxWidth: 400,
         mx: 'auto',
-        borderRadius: 2
+        borderRadius: 2,
+        backgroundColor: "#ffffff",
+        color: '#333'
       }}
     >
       <Stack 

@@ -1,20 +1,24 @@
 import React from 'react';
+import { Container } from '@mui/material';
 
 /**
  * AboutPage component to display information about the app.
  */
 const AboutPage = () => {
   return (
-    <div
-      style={{
-        width: '100%', // Full width
-        height: '100vh', // Full viewport height
-        padding: '20px',
+    <Container 
+      maxWidth="sm" 
+      sx={{ 
+        backgroundColor: '#333',
+        color: '#fff',
+        borderRadius: 1,
+        py: 2,
+        height: 'calc(100vh - 48px)', // Subtract navbar height
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        textAlign: 'center',
+        textAlign: 'center'
       }}
     >
       <h1>About</h1>
@@ -24,7 +28,7 @@ const AboutPage = () => {
       <p>
         Use the timer to focus on tasks, view your progress in the progress page, and customize your settings in the settings panel.
       </p>
-    </div>
+    </Container>
   );
 };
 
