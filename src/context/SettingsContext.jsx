@@ -43,6 +43,15 @@ export const SettingsProvider = ({ children }) => {
     });
   }, []);
 
+  // Function to update multiple settings at once
+  const updateSettings = useCallback((newSettings) => {
+    setSettings(prev => {
+      const updatedSettings = { ...prev, ...newSettings };
+      localStorage.setItem('settings', JSON.stringify(updatedSettings));
+      return updatedSettings;
+    });
+  }, []);
+
   // Function to add a session when the timer completes
   const addSession = useCallback((duration) => {
     setSettings(prevSettings => ({
@@ -94,6 +103,7 @@ export const SettingsProvider = ({ children }) => {
   const value = {
     settings,
     updateSetting,
+    updateSettings,
     addSession
   };
 

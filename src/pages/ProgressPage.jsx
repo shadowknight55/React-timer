@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSettings } from '../context/SettingsContext';
 import { 
   Box, Typography, Paper, Grid, Card, CardContent, 
-  IconButton, Container, Divider, Tooltip, useTheme
+  IconButton, Container, Divider, Tooltip, useTheme,
+  Button
 } from '@mui/material';
 import ChartRenderer from '../components/progress/ChartRenderer';
 import StreakHistoryDialog from '../components/progress/StreakHistoryDialog';
@@ -10,9 +11,12 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import HistoryIcon from '@mui/icons-material/History';
+import DownloadIcon from '@mui/icons-material/Download';
+import { exportTimerData } from '../lib/exportData';
+import { generateSeedData } from '../lib/seedData';
 
 const ProgressPage = () => {
-  const { settings } = useSettings();
+  const { settings, updateSettings } = useSettings();
   const [sessionData, setSessionData] = useState([]);
   const [showStreakHistory, setShowStreakHistory] = useState(false);
   const theme = useTheme();
@@ -88,6 +92,7 @@ const ProgressPage = () => {
       console.log('Chart data:', data); // Debug log
       setSessionData(data);
     } else {
+      console.log('No sessions found, setting empty data');
       setSessionData([]);
     }
   }, [settings.sessions, settings.chartTimePeriod]);
@@ -148,6 +153,61 @@ const ProgressPage = () => {
     ? Math.round(totalMinutes / totalSessions) 
     : 0;
 
+  const handleExportData = () => {
+    exportTimerData(settings.sessions);
+  };
+
+  const handleSeedData = () => {
+    console.log('Generating seed data...');
+    const seededData = generateSeedData();
+    console.log('Generated seed data:', seededData);
+    
+    // Sort all sessions by timestamp (newest first)
+    const allSessions = [...settings.sessions, ...seededData].sort((a, b) => {
+      return new Date(b.timestamp) - new Date(a.timestamp);
+    });
+    
+    console.log('Combined sessions:', allSessions);
+    
+    // Update settings with the combined and sorted data
+    updateSettings({
+      ...settings,
+      sessions: allSessions
+    });
+    
+    // Check if data was saved to localStorage
+    setTimeout(() => {
+      const savedSettings = JSON.parse(localStorage.getItem('settings'));
+      console.log('Saved settings in localStorage:', savedSettings);
+      console.log('Number of sessions in localStorage:', savedSettings?.sessions?.length || 0);
+      
+      // Force a refresh of the chart data
+      if (savedSettings?.sessions?.length > 0) {
+        const validSessions = savedSettings.sessions
+          .filter(session => 
+            session && 
+            typeof session.duration === 'number' && 
+            !isNaN(session.duration) &&
+            session.timestamp
+          );
+        
+        const groupedSessions = groupSessionsByPeriod(validSessions, settings.chartTimePeriod);
+        
+        const data = Object.entries(groupedSessions).map(([key, value]) => ({
+          x: key,
+          y: Math.round(value.totalDuration / 60), // Convert seconds to minutes
+          sessions: value.count
+        }));
+        
+        console.log('Forced chart data update:', data);
+        setSessionData(data);
+      }
+    }, 500);
+    
+    // Show a notification or alert that data was added
+    alert(`Added ${seededData.length} sample sessions spanning the last 3 months!`);
+  };
+
   return (
     <Container 
       maxWidth="lg" 
@@ -161,18 +221,35 @@ const ProgressPage = () => {
         borderRadius: 1
       }}
     >
-      <Typography 
-        variant="subtitle2" 
-        align="center" 
-        sx={{ 
-          mb: 0.5,
-          fontWeight: 'medium',
-          color: theme.palette.primary.main,
-          lineHeight: 1
-        }}
-      >
-        Your Progress
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
+        <Typography 
+          variant="subtitle2" 
+          sx={{ 
+            fontWeight: 'medium',
+            color: theme.palette.primary.main,
+            lineHeight: 1
+          }}
+        >
+          Your Progress
+        </Typography>
+        <Box>
+          <Button
+            size="small"
+            startIcon={<DownloadIcon />}
+            onClick={handleExportData}
+            sx={{ mr: 1 }}
+          >
+            Export
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={handleSeedData}
+          >
+            Load Sample Data
+          </Button>
+        </Box>
+      </Box>
 
       <Grid container spacing={0.5} sx={{ mb: 0.5 }}>
         <Grid item xs={6} sm={6} md={3}>
