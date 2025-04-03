@@ -29,6 +29,9 @@ const AboutPage = () => {
       <p>
         Use the timer to focus on tasks, view your progress in the progress page, and customize your settings in the settings panel.
       </p>
+      <p>
+        We would love to hear from you! Please take a moment to fill out our survey to help us improve the app.
+      </p>
       <Box sx={{ mt: 4 }}>
         <Button
           component={MuiLink}
