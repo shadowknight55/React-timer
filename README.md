@@ -67,7 +67,7 @@ a chat to show your progress in 3 different ways
 - @emotion/react
 - @emotion/styled
 - styled-components
-- tailwindcss
+-  Mui
 - Recharts
 
 ## Usage Guidelines
