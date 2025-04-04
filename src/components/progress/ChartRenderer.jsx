@@ -51,26 +51,47 @@ const ChartRenderer = ({ data, chartType }) => {
 
   switch (chartType) {
     case 'pie':
+      // Sort data by value (minutes) in descending order
+      const sortedData = [...data].sort((a, b) => b.y - a.y);
+      
+      // Take top 5 entries and sum the rest into "Other"
+      const pieData = sortedData.slice(0, 5);
+      if (sortedData.length > 5) {
+        const otherSum = sortedData
+          .slice(5)
+          .reduce((sum, item) => sum + item.y, 0);
+        
+        if (otherSum > 0) {
+          pieData.push({
+            x: 'Other',
+            y: otherSum
+          });
+        }
+      }
+
       return (
         <ResponsiveContainer width="100%" height={400}>
           <PieChart margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
             <Pie
-              data={data}
+              data={pieData}
               dataKey="y"
               nameKey="x"
               cx="50%"
               cy="50%"
               outerRadius={130}
-              label
+              label={({ name, percent }) => 
+                `${name} (${(percent * 100).toFixed(0)}%)`
+              }
+              labelLine={false}
             >
-              {data.map((entry, index) => (
+              {pieData.map((entry, index) => (
                 <Cell 
                   key={`cell-${index}`} 
                   fill={COLORS[index % COLORS.length]} 
                 />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip formatter={(value) => `${value} minutes`} />
             <Legend />
           </PieChart>
         </ResponsiveContainer>
